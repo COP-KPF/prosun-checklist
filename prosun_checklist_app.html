@@ -13,7 +13,7 @@ body{font-family:Arial,sans-serif;background:#f4f6f9;color:#1a1a1a;font-size:14p
 .app-bar .icon{width:34px;height:34px;background:rgba(255,255,255,0.15);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:17px}
 .app-bar h1{font-size:14px;font-weight:600}.app-bar p{font-size:11px;opacity:.7;margin-top:1px}
 .prog-wrap{height:3px;background:rgba(0,0,0,0.1)}.prog-fill{height:3px;background:#06C755;transition:width .3s}
-.toast{background:#06C755;color:#fff;padding:9px 14px;font-size:12px;display:none;align-items:center;gap:8px}
+.toast{background:#E24B4A;color:#fff;padding:9px 14px;font-size:12px;display:none;align-items:center;gap:8px}
 .toast.show{display:flex}
 .wrap{padding:20px 16px}
 .card{background:#fff;border:1px solid #e0e4ea;border-radius:12px;padding:20px 16px;margin-bottom:14px}
@@ -35,17 +35,26 @@ body{font-family:Arial,sans-serif;background:#f4f6f9;color:#1a1a1a;font-size:14p
 .sth{font-size:11px;color:#999;margin-bottom:7px}
 .badge{display:inline-block;font-size:10px;font-weight:600;padding:2px 8px;border-radius:20px;margin-bottom:8px}
 .bc{background:#FCEBEB;color:#A32D2D}.bo{background:#EAF3DE;color:#27500A}.bw{background:#FAEEDA;color:#633806}
-.ans-row{display:flex;align-items:center;gap:8px}
+.ans-row{display:flex;align-items:center;gap:8px;margin-top:6px}
 .ans-sel{flex:1;padding:8px 10px;border-radius:7px;border:1px solid #d0d5dd;background:#fff;font-size:13px;font-weight:600}
 .ans-sel.ok{background:#EAF3DE;border-color:#639922;color:#27500A}
 .ans-sel.fail{background:#FCEBEB;border-color:#E24B4A;color:#791F1F}
+.auto-result{padding:10px 12px;border-radius:8px;font-size:13px;font-weight:600;text-align:center;margin-top:8px;display:none}
+.auto-ok{background:#EAF3DE;color:#27500A;border:1px solid #639922}
+.auto-fail{background:#FCEBEB;color:#791F1F;border:1px solid #E24B4A}
 .tslbl{font-size:10px;color:#aaa;min-width:38px;text-align:right}
-.temp-row{display:flex;align-items:center;gap:6px;margin-bottom:7px}
-.temp-row input{width:80px;padding:8px;border-radius:7px;border:1px solid #d0d5dd;font-size:15px;text-align:center}
-.temp-row span{font-size:12px;color:#888}
+.temp-wrap{margin-bottom:8px}
+.temp-inp{width:90px;padding:9px;border-radius:7px;border:1px solid #d0d5dd;font-size:16px;text-align:center}
+.temp-unit{font-size:12px;color:#888;margin-left:4px}
 .fail-box{background:#FFF5F5;border:1px solid #E24B4A;border-radius:8px;padding:9px 11px;margin-top:7px;font-size:11px;color:#791F1F;line-height:1.5}
 .fail-box strong{display:block;margin-bottom:3px;font-size:12px}
 .nta{width:100%;margin-top:6px;padding:8px 10px;border-radius:6px;border:1.5px solid #E24B4A;background:#FFF8F8;font-size:12px;min-height:54px;resize:vertical}
+.photo-wrap{margin-top:10px}
+.photo-btn{display:flex;align-items:center;gap:8px;padding:10px 14px;background:#EBF3FB;border:1px dashed #2F5496;border-radius:8px;cursor:pointer;font-size:12px;color:#1F3864;font-weight:600;width:100%}
+.photo-btn i{font-size:18px}
+.photo-preview{width:100%;max-height:200px;object-fit:cover;border-radius:8px;margin-top:8px;display:none;border:1px solid #d0d5dd}
+.photo-status{font-size:11px;margin-top:4px;display:none}
+.photo-ok{color:#27500A}.photo-missing{color:#E24B4A}
 .sub-bar{padding:12px 14px;border-top:1px solid #e0e4ea;display:flex;align-items:center;gap:10px;background:#fff;margin-top:4px}
 .ptxt{font-size:12px;color:#888;flex:1}
 .sbtn{padding:10px 18px;background:#1F3864;color:#fff;border:none;border-radius:8px;cursor:pointer;font-size:13px;font-weight:600}
@@ -64,7 +73,8 @@ body{font-family:Arial,sans-serif;background:#f4f6f9;color:#1a1a1a;font-size:14p
 .ebtn{width:100%;padding:12px;background:#fff;color:#1a1a1a;border:1px solid #d0d5dd;border-radius:8px;cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center;gap:8px}
 .rbtn{width:100%;padding:11px;background:transparent;color:#888;border:1px solid #d0d5dd;border-radius:8px;cursor:pointer;font-size:13px}
 .fnhint{font-size:11px;color:#888;margin-top:6px;font-style:italic;text-align:center}
-.email-modal-bg{min-height:280px;background:rgba(0,0,0,0.45);display:flex;align-items:center;justify-content:center;padding:16px;border-radius:12px;margin-top:12px}
+.perr{color:#E24B4A;font-size:12px;display:none;margin-top:4px}
+.email-modal-bg{min-height:260px;background:rgba(0,0,0,0.45);display:flex;align-items:center;justify-content:center;padding:16px;border-radius:12px;margin-top:12px}
 .email-modal{background:#fff;border-radius:12px;padding:20px 16px;width:100%;max-width:340px}
 .email-modal h3{font-size:14px;font-weight:600;margin-bottom:4px}
 .email-modal p{font-size:11px;color:#888;margin-bottom:14px}
@@ -74,7 +84,6 @@ body{font-family:Arial,sans-serif;background:#f4f6f9;color:#1a1a1a;font-size:14p
 .msend{background:#1F3864;color:#fff;border:none}
 .mcancel{background:transparent;border:1px solid #d0d5dd;color:#1a1a1a}
 .esent{background:#EAF3DE;border-radius:10px;padding:14px;text-align:center;margin-top:10px;font-size:12px;color:#27500A;display:none}
-.perr{color:#E24B4A;font-size:12px;display:none;margin-top:4px}
 </style>
 </head>
 <body>
@@ -118,8 +127,8 @@ body{font-family:Arial,sans-serif;background:#f4f6f9;color:#1a1a1a;font-size:14p
     <div><h1>4AM Startup Checklist</h1><p id="hdr-date">—</p></div>
   </div>
   <div class="prog-wrap"><div class="prog-fill" id="prog-bar" style="width:0%"></div></div>
-  <div id="toast" class="toast"><i class="ti ti-brand-line"></i><span id="toast-msg"></span></div>
-  <div id="chk-body" style="padding-bottom:72px"></div>
+  <div id="toast" class="toast"><i class="ti ti-alert-triangle"></i><span id="toast-msg"></span></div>
+  <div id="chk-body" style="padding-bottom:80px"></div>
   <div class="sub-bar">
     <div class="ptxt" id="prog-txt">0 / 0 answered</div>
     <button class="sbtn" id="btn-submit" disabled>Submit</button>
@@ -150,29 +159,36 @@ body{font-family:Arial,sans-serif;background:#f4f6f9;color:#1a1a1a;font-size:14p
   </div>
 </div>
 
+<!-- Hidden file inputs for photos -->
+<input type="file" id="photo-input" accept="image/*" capture="environment" style="display:none">
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
 <script>
 // ═══════════════════════════════════════════════
 // CHECKLIST DATA
+// auto: true = auto pass/fail from temp, no dropdown
+// photo: true = camera required
+// limit: numeric limit for auto steps
+// limitOp: 'lte' = less than or equal, 'lt' = less than
 // ═══════════════════════════════════════════════
 var CHECKS = [
   {phase:"PHASE 1 - Cold Room Verification / ตรวจห้องเย็น", cls:"p1", items:[
-    {id:"1.1", en:"Chill Room 1 temperature (left, next to cutting)", th:"อุณหภูมิห้องเย็น 1 (ซ้าย ข้างห้องตัด)", lim:"CCP - Must be 3C or below", lt:"bc", temp:true, fail:"QUARANTINE product. Call QA Manager. / กักกันสินค้า โทรหา QA Manager ทันที"},
-    {id:"1.3", en:"Chill Room 2 temperature (middle, between washing and weighing)", th:"อุณหภูมิห้องเย็น 2 (กลาง ระหว่างห้องล้างและชั่ง)", lim:"CCP - Must be 3C or below", lt:"bc", temp:true, fail:"QUARANTINE product. Call QA Manager. / กักกันสินค้า โทรหา QA Manager ทันที"},
-    {id:"1.5", en:"Both cold rooms: no ice on evaporator, doors fully sealed", th:"ห้องเย็นทั้งสอง: ไม่มีน้ำแข็งที่คอยล์ ประตูปิดสนิท", lim:"Visual - no defects", lt:"bo", fail:"Note defect and repair before use. / บันทึกข้อบกพร่องและซ่อมก่อนใช้งาน"}
+    {id:"1.1", en:"Chill Room 1 temperature (left, next to cutting)", th:"อุณหภูมิห้องเย็น 1 (ซ้าย ข้างห้องตัด)", lim:"CCP - Auto validated - Must be 3C or below", lt:"bc", temp:true, auto:true, limit:3, limitOp:"lte", photo:true, failMsg:"QUARANTINE product. Call QA Manager immediately."},
+    {id:"1.3", en:"Chill Room 2 temperature (middle, between washing and weighing)", th:"อุณหภูมิห้องเย็น 2 (กลาง ระหว่างห้องล้างและชั่ง)", lim:"CCP - Auto validated - Must be 3C or below", lt:"bc", temp:true, auto:true, limit:3, limitOp:"lte", photo:true, failMsg:"QUARANTINE product. Call QA Manager immediately."},
+    {id:"1.5", en:"Both cold rooms: no ice on evaporator, doors fully sealed", th:"ห้องเย็นทั้งสอง: ไม่มีน้ำแข็งที่คอยล์ ประตูปิดสนิท", lim:"Visual check - no defects", lt:"bo", temp:false, auto:false, photo:false, failMsg:"Note defect and repair before use."}
   ]},
   {phase:"PHASE 2 - Compressor and Aircon Startup / เปิดเครื่อง", cls:"p2", items:[
-    {id:"2.1", en:"Turn on aircon - Washing Room", th:"เปิดแอร์ - ห้องล้าง", lim:"Must reach below 10C before use", lt:"bw", fail:"Wait until room reaches below 10C before product enters. / รอจนห้องถึง 10C"},
-    {id:"2.2", en:"Turn on aircon - Cutting and Packing Room", th:"เปิดแอร์ - ห้องตัดและแพ็ค", lim:"Must reach below 10C before use", lt:"bw", fail:"Wait until room reaches below 10C before cutting. / รอจนห้องถึง 10C"},
-    {id:"2.3", en:"Turn on lights - all production zones", th:"เปิดไฟ - ทุกพื้นที่การผลิต", lim:"All lights functional / ไฟทำงานปกติ", lt:"bo", fail:"Report to maintenance. / แจ้งซ่อมบำรุง"},
-    {id:"2.4", en:"Turn on water - check pressure and flow", th:"เปิดน้ำ - ตรวจแรงดันและการไหล", lim:"Adequate pressure, potable water confirmed", lt:"bo", fail:"Do not start washing. / อย่าเริ่มล้าง"}
+    {id:"2.1", en:"Turn on aircon - Washing Room", th:"เปิดแอร์ - ห้องล้าง", lim:"Must reach below 10C before use", lt:"bw", temp:false, auto:false, photo:true, failMsg:"Wait until room reaches below 10C before product enters."},
+    {id:"2.2", en:"Turn on aircon - Cutting and Packing Room", th:"เปิดแอร์ - ห้องตัดและแพ็ค", lim:"Must reach below 10C before use", lt:"bw", temp:false, auto:false, photo:true, failMsg:"Wait until room reaches below 10C before cutting."},
+    {id:"2.3", en:"Turn on lights - all production zones", th:"เปิดไฟ - ทุกพื้นที่การผลิต", lim:"All lights functional", lt:"bo", temp:false, auto:false, photo:false, failMsg:"Report to maintenance."},
+    {id:"2.4", en:"Turn on water - check pressure and flow", th:"เปิดน้ำ - ตรวจแรงดันและการไหล", lim:"Adequate pressure, potable water confirmed", lt:"bo", temp:false, auto:false, photo:false, failMsg:"Do not start washing."}
   ]},
   {phase:"PHASE 3 - Pre-Receiving Verification / ตรวจก่อนรับสินค้า (04:30)", cls:"p3", items:[
-    {id:"3.1", en:"Washing Room reached target temp?", th:"ห้องล้างถึงอุณหภูมิเป้าหมายแล้ว?", lim:"Below 10C - HOLD if not reached", lt:"bc", temp:true, fail:"Do NOT start washing. Wait and recheck. / ห้ามเริ่มล้าง รอและตรวจซ้ำ"},
-    {id:"3.2", en:"Cutting and Packing Room reached target temp?", th:"ห้องตัดถึงอุณหภูมิเป้าหมายแล้ว?", lim:"Below 10C - HOLD if not reached", lt:"bc", temp:true, fail:"Do NOT start cutting. Wait and recheck. / ห้ามเริ่มตัด รอและตรวจซ้ำ"},
-    {id:"3.5", en:"Receiving and Weighing Area ambient temp (record only - no aircon yet)", th:"อุณหภูมิห้องรับสินค้า (บันทึกเท่านั้น ยังไม่มีแอร์)", lim:"Record only - not a CCP", lt:"bo", temp:true},
-    {id:"3.6", en:"Scale calibrated and zeroed - calibration sticker date valid?", th:"ตาชั่งสอบเทียบและตั้งศูนย์ - สติกเกอร์วันที่ถูกต้อง?", lim:"Calibration valid / สอบเทียบแล้ว", lt:"bo", fail:"Do not use scale until re-calibrated. / อย่าใช้ตาชั่ง"},
-    {id:"3.7", en:"PPE check - uniform, gloves, hairnet, shoe wash active", th:"ตรวจ PPE - ชุดทำงาน ถุงมือ ตาข่าย อ่างล้างรองเท้า", lim:"Full PPE required / PPE ครบถ้วน", lt:"bo", fail:"No entry without full PPE. / ห้ามเข้าโดยไม่มี PPE"}
+    {id:"3.1", en:"Washing Room temperature", th:"อุณหภูมิห้องล้าง", lim:"Auto validated - Must be below 10C before use", lt:"bc", temp:true, auto:true, limit:10, limitOp:"lt", photo:true, failMsg:"Do NOT start washing. Wait and recheck."},
+    {id:"3.2", en:"Cutting and Packing Room temperature", th:"อุณหภูมิห้องตัดและแพ็ค", lim:"Auto validated - Must be below 10C before use", lt:"bc", temp:true, auto:true, limit:10, limitOp:"lt", photo:true, failMsg:"Do NOT start cutting. Wait and recheck."},
+    {id:"3.5", en:"Receiving and Weighing Area ambient temperature", th:"อุณหภูมิห้องรับสินค้า (บันทึกเท่านั้น ยังไม่มีแอร์)", lim:"Record only - not a CCP", lt:"bo", temp:true, auto:false, photo:true, failMsg:""},
+    {id:"3.6", en:"Scale calibrated and zeroed - sticker date valid?", th:"ตาชั่งสอบเทียบและตั้งศูนย์ - สติกเกอร์วันที่ถูกต้อง?", lim:"Calibration valid", lt:"bo", temp:false, auto:false, photo:true, failMsg:"Do not use scale until re-calibrated."},
+    {id:"3.7", en:"PPE check - uniform, gloves, hairnet, shoe wash active", th:"ตรวจ PPE - ชุดทำงาน ถุงมือ ตาข่าย อ่างล้างรองเท้า", lim:"Full PPE required", lt:"bo", temp:false, auto:false, photo:false, failMsg:"No entry without full PPE."}
   ]}
 ];
 
@@ -183,6 +199,9 @@ var currentUser = "Production Manager";
 var loginMethod = "PIN";
 var answers = {};
 var timestamps = {};
+var photoData = {};    // base64 photos keyed by step id
+var photoTaken = {};   // bool keyed by step id
+var currentPhotoStep = null;
 
 // ═══════════════════════════════════════════════
 // UTILITIES
@@ -197,23 +216,51 @@ function fmtTime(d) {
   return String(d.getHours()).padStart(2,"0") + ":" + String(d.getMinutes()).padStart(2,"0");
 }
 
-function updateProg() {
-  var keys = Object.keys(answers);
-  var done = 0;
-  for (var i = 0; i < keys.length; i++) {
-    if (answers[keys[i]] === "OK" || answers[keys[i]] === "FAIL") done++;
-  }
-  var total = keys.length;
-  document.getElementById("prog-bar").style.width = (total > 0 ? Math.round(done/total*100) : 0) + "%";
-  document.getElementById("prog-txt").textContent = done + " / " + total + " answered / ตอบแล้ว";
-  document.getElementById("btn-submit").disabled = (done < total);
+function setAnswer(id, val) {
+  answers[id] = val;
+  timestamps[id] = fmtTime(new Date());
+  updateProg();
 }
 
 function showToast(msg) {
   var t = document.getElementById("toast");
   document.getElementById("toast-msg").textContent = msg;
   t.classList.add("show");
-  setTimeout(function() { t.classList.remove("show"); }, 3500);
+  setTimeout(function() { t.classList.remove("show"); }, 4000);
+}
+
+function allItems() {
+  var items = [];
+  for (var i = 0; i < CHECKS.length; i++) {
+    for (var j = 0; j < CHECKS[i].items.length; j++) {
+      items.push(CHECKS[i].items[j]);
+    }
+  }
+  return items;
+}
+
+function updateProg() {
+  var items = allItems();
+  var total = items.length;
+  var done = 0;
+  var missingPhoto = false;
+
+  for (var i = 0; i < items.length; i++) {
+    var item = items[i];
+    var id = item.id;
+    if (answers[id] === "OK" || answers[id] === "FAIL") {
+      // Check photo requirement
+      if (item.photo && !photoTaken[id]) {
+        missingPhoto = true;
+      } else {
+        done++;
+      }
+    }
+  }
+
+  document.getElementById("prog-bar").style.width = (total > 0 ? Math.round(done/total*100) : 0) + "%";
+  document.getElementById("prog-txt").textContent = done + " / " + total + " answered / ตอบแล้ว";
+  document.getElementById("btn-submit").disabled = (done < total);
 }
 
 // ═══════════════════════════════════════════════
@@ -227,9 +274,7 @@ function doLogin(method) {
       document.getElementById("pin-err").style.display = "block";
       document.getElementById("pin-field").value = "";
       document.getElementById("pin-field").style.borderColor = "#E24B4A";
-      setTimeout(function() {
-        document.getElementById("pin-field").style.borderColor = "";
-      }, 1500);
+      setTimeout(function() { document.getElementById("pin-field").style.borderColor = ""; }, 1500);
       return;
     }
     document.getElementById("pin-err").style.display = "none";
@@ -238,6 +283,8 @@ function doLogin(method) {
   loginMethod = method;
   answers = {};
   timestamps = {};
+  photoData = {};
+  photoTaken = {};
   var now = new Date();
   document.getElementById("hdr-date").textContent =
     now.toLocaleDateString("th-TH", {weekday:"long", year:"numeric", month:"long", day:"numeric"}) +
@@ -264,6 +311,7 @@ function buildChecklist() {
       var item = phase.items[ii];
       ph.appendChild(makeCheckItem(item));
       answers[item.id] = "pending";
+      if (item.photo) photoTaken[item.id] = false;
     }
     body.appendChild(ph);
   }
@@ -273,29 +321,60 @@ function makeCheckItem(item) {
   var d = document.createElement("div");
   d.className = "chk";
   d.id = "item-" + item.id;
-  var html = "<div class='sid'>Step " + item.id + "</div>"
+
+  var html = "<div class='sid'>Step " + item.id + (item.auto ? " — AUTO VALIDATED" : "") + "</div>"
     + "<div class='sen'>" + item.en + "</div>"
     + "<div class='sth'>" + item.th + "</div>"
     + "<span class='badge " + item.lt + "'>" + item.lim + "</span>";
 
+  // Temperature input
   if (item.temp) {
-    html += "<div class='temp-row'><input type='number' id='tmp-" + item.id + "' step='0.1' placeholder='0.0' inputmode='decimal'><span>C</span></div>";
+    html += "<div class='temp-wrap'>"
+      + "<input type='number' class='temp-inp' id='tmp-" + item.id + "' step='0.1' placeholder='0.0' inputmode='decimal'>"
+      + "<span class='temp-unit'>°C</span>"
+      + "</div>";
   }
 
-  html += "<div class='ans-row'>"
-    + "<select class='ans-sel' id='ans-" + item.id + "'>"
-    + "<option value=''>- Select / เลือก -</option>"
-    + "<option value='OK'>OK</option>"
-    + "<option value='FAIL'>FAIL</option>"
-    + (item.lt === "bo" ? "<option value='N/A'>N/A</option>" : "")
-    + "</select>"
-    + "<span class='tslbl' id='ts-" + item.id + "'></span>"
-    + "</div>";
+  // Auto-validated: show result box, no dropdown
+  if (item.auto) {
+    html += "<div class='auto-result' id='ar-" + item.id + "'></div>";
+  } else if (item.id !== "3.5") {
+    // Manual dropdown (except 3.5 which is record-only)
+    html += "<div class='ans-row'>"
+      + "<select class='ans-sel' id='ans-" + item.id + "'>"
+      + "<option value=''>- Select / เลือก -</option>"
+      + "<option value='OK'>OK</option>"
+      + "<option value='FAIL'>FAIL</option>"
+      + (item.lt === "bo" ? "<option value='N/A'>N/A</option>" : "")
+      + "</select>"
+      + "<span class='tslbl' id='ts-" + item.id + "'></span>"
+      + "</div>";
+  } else {
+    // 3.5 record only — auto OK when temp entered
+    html += "<div class='auto-result' id='ar-" + item.id + "'></div>";
+  }
 
-  if (item.fail) {
+  // Photo button
+  if (item.photo) {
+    html += "<div class='photo-wrap'>"
+      + "<label class='photo-btn' id='pbtn-" + item.id + "'>"
+      + "<i class='ti ti-camera'></i>"
+      + "<span>Take photo / ถ่ายรูป (required)</span>"
+      + "<input type='file' accept='image/*' capture='environment' style='display:none' id='pfile-" + item.id + "'>"
+      + "</label>"
+      + "<img class='photo-preview' id='pprev-" + item.id + "' alt='Photo'>"
+      + "<div class='photo-status photo-missing' id='pstat-" + item.id + "'>Photo required / ต้องถ่ายรูป</div>"
+      + "</div>";
+  }
+
+  // Fail block (for auto and manual steps with failMsg)
+  if (item.failMsg) {
     html += "<div id='fb-" + item.id + "' style='display:none'>"
-      + "<div class='fail-box'><strong>Action required / ต้องดำเนินการ</strong>" + item.fail + "</div>"
-      + "<textarea class='nta' id='nt-" + item.id + "' placeholder='Corrective action notes / บันทึกการแก้ไข...' rows='2'></textarea>"
+      + "<div class='fail-box'><strong>Action required / ต้องดำเนินการ — " + item.failMsg + "</strong></div>"
+      + "<span class='lbl' style='margin-top:8px;color:#791F1F'>Comment / ความคิดเห็น</span>"
+      + "<textarea class='nta' id='com-" + item.id + "' placeholder='Describe what you observed / อธิบายสิ่งที่พบ...' rows='2'></textarea>"
+      + "<span class='lbl' style='margin-top:6px;color:#791F1F'>Corrective Action / การแก้ไข</span>"
+      + "<textarea class='nta' id='ca-" + item.id + "' placeholder='Corrective action taken / การแก้ไขที่ดำเนินการ...' rows='2'></textarea>"
       + "</div>";
   }
 
@@ -304,22 +383,174 @@ function makeCheckItem(item) {
 }
 
 // ═══════════════════════════════════════════════
-// ANSWER HANDLING — use event delegation
+// TEMPERATURE INPUT — auto validate + trigger camera
+// ═══════════════════════════════════════════════
+document.addEventListener("input", function(e) {
+  var el = e.target;
+  if (el.className === "temp-inp" && el.id && el.id.indexOf("tmp-") === 0) {
+    var id = el.id.replace("tmp-", "");
+    var val = parseFloat(el.value);
+    if (isNaN(val)) return;
+
+    // Find item
+    var item = null;
+    var items = allItems();
+    for (var i = 0; i < items.length; i++) {
+      if (items[i].id === id) { item = items[i]; break; }
+    }
+    if (!item) return;
+
+    // Auto-validated steps
+    if (item.auto) {
+      var passed = item.limitOp === "lte" ? val <= item.limit : val < item.limit;
+      var ar = document.getElementById("ar-" + id);
+      var fb = document.getElementById("fb-" + id);
+      if (passed) {
+        ar.className = "auto-result auto-ok";
+        ar.textContent = "OK - " + val + "C - Within limit / ผ่าน";
+        ar.style.display = "block";
+        if (fb) fb.style.display = "none";
+        setAnswer(id, "OK");
+      } else {
+        ar.className = "auto-result auto-fail";
+        ar.textContent = "FAIL - " + val + "C - Exceeds limit / ไม่ผ่าน";
+        ar.style.display = "block";
+        if (fb) fb.style.display = "block";
+        setAnswer(id, "FAIL");
+        showToast("FAIL Step " + id + " - " + val + "C exceeds limit - Action required");
+      }
+      // Trigger camera after temp entered
+      if (item.photo && !photoTaken[id]) {
+        setTimeout(function() {
+          var fileInput = document.getElementById("pfile-" + id);
+          if (fileInput) fileInput.click();
+        }, 300);
+      }
+    }
+
+    // Step 3.5 — record only, auto OK
+    if (id === "3.5") {
+      var ar35 = document.getElementById("ar-3.5");
+      ar35.className = "auto-result auto-ok";
+      ar35.textContent = "Recorded: " + val + "C (ambient - not a CCP)";
+      ar35.style.display = "block";
+      setAnswer("3.5", "OK");
+      if (!photoTaken["3.5"]) {
+        setTimeout(function() {
+          var fi = document.getElementById("pfile-3.5");
+          if (fi) fi.click();
+        }, 300);
+      }
+    }
+
+    timestamps[id] = fmtTime(new Date());
+    updateProg();
+  }
+});
+
+// ═══════════════════════════════════════════════
+// DROPDOWN CHANGE — manual steps
 // ═══════════════════════════════════════════════
 document.addEventListener("change", function(e) {
   var el = e.target;
+
+  // Answer dropdown
   if (el.tagName === "SELECT" && el.id && el.id.indexOf("ans-") === 0) {
     var id = el.id.replace("ans-", "");
     var v = el.value;
     if (!v) return;
-    answers[id] = v;
+    setAnswer(id, v);
     timestamps[id] = fmtTime(new Date());
-    document.getElementById("ts-" + id).textContent = timestamps[id];
+    var tsEl = document.getElementById("ts-" + id);
+    if (tsEl) tsEl.textContent = timestamps[id];
     el.className = "ans-sel " + (v === "OK" ? "ok" : v === "FAIL" ? "fail" : "");
     var fb = document.getElementById("fb-" + id);
     if (fb) fb.style.display = v === "FAIL" ? "block" : "none";
     if (v === "FAIL") showToast("FAIL on step " + id + " - action required");
     updateProg();
+  }
+
+  // Photo file input
+  if (el.type === "file" && el.id && el.id.indexOf("pfile-") === 0) {
+    var stepId = el.id.replace("pfile-", "");
+    var file = el.files[0];
+    if (!file) return;
+    var reader = new FileReader();
+    reader.onload = function(ev) {
+      var b64 = ev.target.result;
+      // Burn timestamp onto photo using canvas
+      var img = new Image();
+      img.onload = function() {
+        var canvas = document.createElement("canvas");
+        canvas.width = img.width;
+        canvas.height = img.height;
+        var ctx = canvas.getContext("2d");
+        ctx.drawImage(img, 0, 0);
+
+        // Find step name for label
+        var stepLabel = "Step " + stepId;
+        var allItemsList = [];
+        for (var pi = 0; pi < CHECKS.length; pi++) {
+          for (var ii = 0; ii < CHECKS[pi].items.length; ii++) {
+            allItemsList.push(CHECKS[pi].items[ii]);
+          }
+        }
+        for (var i = 0; i < allItemsList.length; i++) {
+          if (allItemsList[i].id === stepId) {
+            stepLabel = "Step " + stepId + " - " + allItemsList[i].en;
+            break;
+          }
+        }
+
+        // Build timestamp string
+        var now = new Date();
+        var dateStr = now.toLocaleDateString("en-GB");
+        var timeStr = String(now.getHours()).padStart(2,"0") + ":" + String(now.getMinutes()).padStart(2,"0") + ":" + String(now.getSeconds()).padStart(2,"0");
+        var line1 = "PROSUN FARM - HACCP";
+        var line2 = stepLabel;
+        var line3 = dateStr + "  " + timeStr;
+        var line4 = currentUser;
+
+        // Font size relative to image size
+        var fontSize = Math.max(18, Math.round(img.width * 0.025));
+        var padding = Math.round(fontSize * 0.7);
+        var lineH = Math.round(fontSize * 1.4);
+        var lines = [line1, line2, line3, line4];
+        var blockH = lines.length * lineH + padding * 2;
+        var yStart = img.height - blockH - padding;
+
+        // Semi-transparent dark background strip
+        ctx.fillStyle = "rgba(0,0,0,0.55)";
+        ctx.fillRect(0, yStart - padding, img.width, blockH + padding);
+
+        // White text with dark shadow
+        ctx.font = "bold " + fontSize + "px Arial";
+        ctx.shadowColor = "rgba(0,0,0,0.9)";
+        ctx.shadowBlur = 4;
+        ctx.shadowOffsetX = 2;
+        ctx.shadowOffsetY = 2;
+        ctx.fillStyle = "#FFFFFF";
+
+        lines.forEach(function(line, i) {
+          ctx.font = i === 2 ? "bold " + Math.round(fontSize*1.15) + "px Arial" : "bold " + fontSize + "px Arial";
+          ctx.fillStyle = i === 2 ? "#FFD700" : "#FFFFFF"; // gold for timestamp line
+          ctx.fillText(line, padding, yStart + (i * lineH) + fontSize);
+        });
+
+        var stamped = canvas.toDataURL("image/jpeg", 0.92);
+        photoData[stepId] = stamped;
+        photoTaken[stepId] = true;
+        var prev = document.getElementById("pprev-" + stepId);
+        var stat = document.getElementById("pstat-" + stepId);
+        var btn = document.getElementById("pbtn-" + stepId);
+        if (prev) { prev.src = stamped; prev.style.display = "block"; }
+        if (stat) { stat.textContent = "Photo taken " + timeStr + " / ถ่ายรูปแล้ว"; stat.className = "photo-status photo-ok"; stat.style.display = "block"; }
+        if (btn) { btn.style.background = "#EAF3DE"; btn.style.borderColor = "#639922"; btn.style.color = "#27500A"; }
+        updateProg();
+      };
+      img.src = b64;
+    };
+    reader.readAsDataURL(file);
   }
 });
 
@@ -328,19 +559,19 @@ document.addEventListener("change", function(e) {
 // ═══════════════════════════════════════════════
 function doSubmit() {
   var now = new Date();
+  var items = allItems();
   var fails = [];
   var okCount = 0;
-  var keys = Object.keys(answers);
-  for (var i = 0; i < keys.length; i++) {
-    if (answers[keys[i]] === "FAIL") fails.push(keys[i]);
-    if (answers[keys[i]] === "OK" || answers[keys[i]] === "N/A") okCount++;
+  for (var i = 0; i < items.length; i++) {
+    if (answers[items[i].id] === "FAIL") fails.push(items[i].id);
+    if (answers[items[i].id] === "OK" || answers[items[i].id] === "N/A") okCount++;
   }
   var status = fails.length === 0 ? "PASS" : "FAIL";
   document.getElementById("done-time").textContent = now.toLocaleDateString("en-GB") + " at " + fmtTime(now);
   document.getElementById("signed-by").textContent = "Signed by: " + currentUser + " via " + loginMethod;
 
   var html = "<div class='srow'><span class='slbl'>Status</span><span class='" + (status==="PASS"?"sok":"sfail") + "'>" + status + "</span></div>"
-    + "<div class='srow'><span class='slbl'>Total checks</span><span>" + keys.length + "</span></div>"
+    + "<div class='srow'><span class='slbl'>Total checks</span><span>" + items.length + "</span></div>"
     + "<div class='srow'><span class='slbl'>Passed</span><span class='sok'>" + okCount + "</span></div>"
     + "<div class='srow'><span class='slbl'>Failed</span><span class='" + (fails.length>0?"sfail":"sok") + "'>" + fails.length + "</span></div>"
     + "<div class='srow'><span class='slbl'>Signed by</span><span>" + currentUser + "</span></div>"
@@ -355,51 +586,45 @@ function doSubmit() {
   var dd = String(now.getDate()).padStart(2,"0");
   var fname = "FACTORY - Morning Checklist - " + yy + mm + dd + " - " + status + ".pdf";
   document.getElementById("fname-hint").textContent = "File: " + fname;
-  window._fname = fname;
-  window._fails = fails;
-  window._okCount = okCount;
-  window._status = status;
-  window._time = now;
+  window._fname = fname; window._fails = fails; window._okCount = okCount;
+  window._status = status; window._time = now;
   showScreen("sc-done");
 }
 
 // ═══════════════════════════════════════════════
-// PDF
+// PDF GENERATION
 // ═══════════════════════════════════════════════
 function generatePDF() {
-  if (!window.jspdf) { alert("PDF library not loaded. Please check your internet connection and try again."); return; }
+  if (!window.jspdf) { alert("PDF library loading. Please wait a moment and try again."); return; }
   var jsPDF = window.jspdf.jsPDF;
   var doc = new jsPDF({orientation:"portrait", unit:"mm", format:"a4"});
   var W = 210, M = 14, y = 0;
   var now = window._time || new Date();
   var fails = window._fails || [];
   var fname = window._fname || "checklist.pdf";
+  var items = allItems();
 
   function fr(x,yy,w,h,r,g,b) { doc.setFillColor(r,g,b); doc.rect(x,yy,w,h,"F"); }
   function tx(t,x,yy,sz,r,g,b,al) { doc.setFontSize(sz); doc.setTextColor(r||0,g||0,b||0); doc.text(String(t),x,yy,{align:al||"left"}); }
   function chkY(n) { if (y+n>275) { doc.addPage(); y=14; } }
 
+  // Header
   fr(0,0,W,28,31,56,100);
   tx("PROSUN FARM",M,10,16,255,255,255);
-  tx("HACCP - Morning Startup Checklist / แบบตรวจสอบตอนเช้า",M,17,9,180,200,230);
+  tx("HACCP - Morning Startup Checklist",M,17,9,180,200,230);
   tx(now.toLocaleDateString("en-GB")+" "+fmtTime(now),W-M,10,9,220,235,255,"right");
   tx("Signed: "+currentUser+" ("+loginMethod+")",W-M,17,8,200,220,245,"right");
   y = 34;
 
+  // Status banner
   var ok = fails.length === 0;
   fr(M,y,W-M*2,12,ok?34:192,ok?87:57,ok?34:57);
-  tx(ok?"ALL PASS - ผ่านทั้งหมด":"FAIL - "+fails.length+" item(s) require action",W/2,y+8,11,255,255,255,"center");
+  tx(ok?"ALL PASS - Passed all checks":"FAIL - "+fails.length+" item(s) require corrective action",W/2,y+8,11,255,255,255,"center");
   y += 17;
 
-  var allItems = [];
-  for (var pi = 0; pi < CHECKS.length; pi++) {
-    for (var ii = 0; ii < CHECKS[pi].items.length; ii++) {
-      allItems.push(CHECKS[pi].items[ii]);
-    }
-  }
-
+  // Summary table
   var rows = [
-    ["Total checks", String(allItems.length)],
+    ["Total checks", String(items.length)],
     ["Passed", String(window._okCount||0)],
     ["Failed", String(fails.length)],
     ["Submitted", now.toLocaleDateString("en-GB")+" "+fmtTime(now)],
@@ -408,34 +633,59 @@ function generatePDF() {
   rows.forEach(function(r,i) {
     fr(M,y,85,6,i%2===0?245:255,i%2===0?247:255,i%2===0?250:255);
     fr(M+85,y,W-M*2-85,6,i%2===0?240:252,i%2===0?244:255,i%2===0?248:255);
-    tx(r[0],M+2,y+4.5,8,80,80,80);
-    tx(r[1],M+88,y+4.5,8,20,20,20);
+    tx(r[0],M+2,y+4.5,8,80,80,80); tx(r[1],M+88,y+4.5,8,20,20,20);
     y += 6;
   });
   y += 5;
 
+  // FAIL summary
   if (fails.length > 0) {
     chkY(15);
-    fr(M,y,W-M*2,7,192,57,57); tx("FAIL SUMMARY / รายการที่ไม่ผ่าน",M+2,y+5,9,255,255,255); y += 10;
+    fr(M,y,W-M*2,7,192,57,57); tx("FAIL SUMMARY - Items requiring corrective action",M+2,y+5,9,255,255,255); y += 10;
     fails.forEach(function(id) {
       var item = null;
-      for (var i = 0; i < allItems.length; i++) { if (allItems[i].id === id) { item = allItems[i]; break; } }
+      for (var i = 0; i < items.length; i++) { if (items[i].id === id) { item = items[i]; break; } }
       if (!item) return;
-      var ntEl = document.getElementById("nt-"+id);
-      var nt = ntEl ? ntEl.value : "";
-      chkY(14);
-      var h = nt ? 18 : 12;
-      fr(M,y,W-M*2,h,255,235,235);
-      doc.setDrawColor(220,80,80); doc.rect(M,y,W-M*2,h,"S");
-      tx("Step "+id+": "+item.en,M+3,y+4,8,150,20,20);
-      if (nt) tx("Action: "+nt,M+3,y+10,7,120,30,30);
-      y += h+2;
+      var comEl = document.getElementById("com-"+id);
+      var caEl = document.getElementById("ca-"+id);
+      var com = comEl ? comEl.value || "" : "";
+      var ca = caEl ? caEl.value || "" : "";
+      var tmpEl = document.getElementById("tmp-"+id);
+      var tmpVal = tmpEl ? tmpEl.value || "" : "";
+      chkY(28);
+      fr(M,y,W-M*2,7,255,235,235); doc.setDrawColor(220,80,80); doc.rect(M,y,W-M*2,7,"S");
+      tx("Step "+id+": "+item.en,M+2,y+5,8,150,20,20); y += 8;
+      if (tmpVal) { fr(M,y,W-M*2,5,255,245,245); tx("Temperature: "+tmpVal+"C",M+2,y+3.5,7,120,30,30); y += 5; }
+      if (com) {
+        var comLines = doc.splitTextToSize("Comment: "+com, W-M*2-4);
+        fr(M,y,W-M*2,comLines.length*4+3,255,250,245);
+        doc.setFontSize(7); doc.setTextColor(100,50,0);
+        comLines.forEach(function(l,li) { doc.text(l,M+2,y+3+li*4); });
+        y += comLines.length*4+4;
+      }
+      if (ca) {
+        var caLines = doc.splitTextToSize("Corrective action: "+ca, W-M*2-4);
+        fr(M,y,W-M*2,caLines.length*4+3,245,255,245);
+        doc.setFontSize(7); doc.setTextColor(30,80,30);
+        caLines.forEach(function(l,li) { doc.text(l,M+2,y+3+li*4); });
+        y += caLines.length*4+4;
+      }
+      // Embed photo if available
+      if (photoData[id]) {
+        chkY(55);
+        try {
+          var ext = photoData[id].indexOf("image/png") > -1 ? "PNG" : "JPEG";
+          doc.addImage(photoData[id], ext, M, y, W-M*2, 50);
+          y += 52;
+        } catch(e) { tx("(photo attached)",M+2,y+4,7,100,100,100); y += 8; }
+      }
+      y += 4;
     });
-    y += 4;
   }
 
+  // Full checklist with photos
+  var colors = {p1:[31,56,100],p2:[197,90,17],p3:[30,86,49]};
   CHECKS.forEach(function(phase) {
-    var colors = {p1:[31,56,100],p2:[197,90,17],p3:[30,86,49]};
     var c = colors[phase.cls]||[60,60,60];
     chkY(15);
     fr(M,y,W-M*2,7,c[0],c[1],c[2]); tx(phase.phase,M+2,y+5,8,255,255,255); y += 9;
@@ -444,26 +694,35 @@ function generatePDF() {
       var isFail = a==="FAIL";
       var tmpEl = document.getElementById("tmp-"+item.id);
       var tmpVal = tmpEl ? tmpEl.value : "";
-      chkY(12);
+      var hasPhoto = photoData[item.id] ? true : false;
+      chkY(hasPhoto ? 65 : 12);
       fr(M,y,W-M*2,10,isFail?255:240,isFail?238:250,isFail?238:240);
       doc.setDrawColor(200,200,200); doc.rect(M,y,W-M*2,10,"S");
-      tx("Step "+item.id,M+2,y+4,7,100,100,100);
-      tx(item.en,M+18,y+4,8,20,20,20);
-      if (tmpVal) tx(tmpVal+"C",M+18,y+8.5,6.5,60,100,160);
+      tx("Step "+item.id+(item.auto?" (auto)":""),M+2,y+4,7,100,100,100);
+      tx(item.en,M+22,y+4,8,20,20,20);
+      if (tmpVal) tx(tmpVal+"C",M+22,y+8.5,6.5,60,100,160);
       var ac = isFail?[180,20,20]:[30,100,30];
       tx(a,W-M-3,y+4,9,ac[0],ac[1],ac[2],"right");
       if (timestamps[item.id]) tx(timestamps[item.id],W-M-18,y+4,6,140,140,140,"right");
       y += 11;
+      // Embed photo inline
+      if (hasPhoto) {
+        chkY(52);
+        try {
+          var ext2 = photoData[item.id].indexOf("image/png") > -1 ? "PNG" : "JPEG";
+          doc.addImage(photoData[item.id], ext2, M+5, y, W-M*2-10, 45);
+          y += 47;
+        } catch(e) { tx("(photo)",M+5,y+4,7,100,100,100); y += 8; }
+      }
     });
     y += 3;
   });
 
-  chkY(12);
-  y += 4;
+  // Footer
+  chkY(12); y += 4;
   doc.setDrawColor(180,180,180); doc.line(M,y,W-M,y); y += 5;
   tx("Document: "+fname,M,y,7,140,140,140);
   tx("clement@klongphaifarm.com",W-M,y,7,140,140,140,"right");
-
   doc.save(fname);
 }
 
@@ -473,26 +732,23 @@ function generatePDF() {
 function showEmailModal() {
   document.getElementById("email-area").innerHTML =
     "<div class='email-modal-bg'><div class='email-modal'>"
-    + "<h3>Email PDF to CEO / ส่ง PDF ถึง CEO</h3>"
-    + "<p>Confirm CEO email / ยืนยันอีเมล CEO</p>"
+    + "<h3>Email PDF to CEO</h3>"
+    + "<p>Confirm CEO email / ยืนยันอีเมล</p>"
     + "<input type='email' id='ceo-email' value='clement@klongphaifarm.com'/>"
     + "<div class='mbtns'>"
-    + "<button class='msend' id='btn-send-email'>Send / ส่ง</button>"
-    + "<button class='mcancel' id='btn-cancel-email'>Cancel / ยกเลิก</button>"
+    + "<button class='msend' id='btn-send-email'>Send</button>"
+    + "<button class='mcancel' id='btn-cancel-email'>Cancel</button>"
     + "</div></div></div>";
-  document.getElementById("btn-send-email").addEventListener("click", function() { sendEmail(); });
+  document.getElementById("btn-send-email").addEventListener("click", function() {
+    var email = document.getElementById("ceo-email").value || "clement@klongphaifarm.com";
+    document.getElementById("email-area").innerHTML = "";
+    document.getElementById("sent-to").textContent = "Sent to: " + email;
+    document.getElementById("email-sent").style.display = "block";
+    generatePDF();
+  });
   document.getElementById("btn-cancel-email").addEventListener("click", function() {
     document.getElementById("email-area").innerHTML = "";
   });
-}
-
-function sendEmail() {
-  var email = document.getElementById("ceo-email").value || "clement@klongphaifarm.com";
-  document.getElementById("email-area").innerHTML = "";
-  var box = document.getElementById("email-sent");
-  document.getElementById("sent-to").textContent = "Sent to: " + email + " - " + window._fname;
-  box.style.display = "block";
-  generatePDF();
 }
 
 // ═══════════════════════════════════════════════
@@ -501,39 +757,19 @@ function sendEmail() {
 document.addEventListener("DOMContentLoaded", function() {
   showScreen("sc-login");
 
-  document.getElementById("btn-line").addEventListener("click", function() {
-    doLogin("LINE");
-  });
-
-  document.getElementById("btn-pin").addEventListener("click", function() {
-    doLogin("PIN");
-  });
-
-  document.getElementById("pin-field").addEventListener("keydown", function(e) {
-    if (e.key === "Enter") { doLogin("PIN"); }
-  });
-
-  document.getElementById("btn-submit").addEventListener("click", function() {
-    doSubmit();
-  });
-
-  document.getElementById("btn-download").addEventListener("click", function() {
-    generatePDF();
-  });
-
-  document.getElementById("btn-email").addEventListener("click", function() {
-    showEmailModal();
-  });
-
+  document.getElementById("btn-line").addEventListener("click", function() { doLogin("LINE"); });
+  document.getElementById("btn-pin").addEventListener("click", function() { doLogin("PIN"); });
+  document.getElementById("pin-field").addEventListener("keydown", function(e) { if (e.key === "Enter") { doLogin("PIN"); } });
+  document.getElementById("btn-submit").addEventListener("click", function() { doSubmit(); });
+  document.getElementById("btn-download").addEventListener("click", function() { generatePDF(); });
+  document.getElementById("btn-email").addEventListener("click", function() { showEmailModal(); });
   document.getElementById("btn-reset").addEventListener("click", function() {
-    answers = {};
-    timestamps = {};
+    answers = {}; timestamps = {}; photoData = {}; photoTaken = {};
     document.getElementById("pin-field").value = "";
     document.getElementById("email-sent").style.display = "none";
     document.getElementById("email-area").innerHTML = "";
     showScreen("sc-login");
   });
-
 });
 </script>
 </body>
