@@ -544,7 +544,7 @@ function evalAutoTemp(id, val) {
     var ar35 = document.getElementById("ar-" + id);
     if (ar35) {
       ar35.className = "auto-result auto-ok";
-      ar35.textContent = "Recorded: " + val + "°C (ambient — not a CCP)";
+      ar35.textContent = "Recorded: " + val + "C (ambient - record only, not a CCP)";
       ar35.style.display = "block";
     }
     setAnswer(id, "OK");
@@ -557,7 +557,7 @@ function evalAutoTemp(id, val) {
   var fb = document.getElementById("fb-" + id);
 
   if (passed) {
-    if (ar) { ar.className = "auto-result auto-ok"; ar.textContent = "OK — " + val + "°C — Within limit / ผ่าน (" + (item.limitOp === "lte" ? "≤" : "<") + item.limit + "°C)"; ar.style.display = "block"; }
+    if (ar) { ar.className = "auto-result auto-ok"; ar.textContent = "OK — " + val + "C — Within limit (limit: " + (item.limitOp === "lte" ? "<=" : "<") + item.limit + "C)"; ar.style.display = "block"; }
     if (fb) fb.style.display = "none";
     setAnswer(id, "OK");
   } else {
@@ -800,7 +800,7 @@ function generatePDF() {
   // ── Header ──
   fr(0, 0, W, 30, 31, 56, 100);
   tx("PROSUN FARM", M, 11, 17, 255, 255, 255);
-  tx("HACCP Morning Startup Checklist / บันทึกการตรวจสอบตอนเช้า", M, 19, 9, 180, 205, 235);
+  tx("HACCP Morning Startup Checklist — Raw Poultry Processing", M, 19, 9, 180, 205, 235);
   tx("Ref: Codex CAC/RCP 1-1969 Rev.4 + Thai FDA GDA", M, 26, 7, 140, 170, 210);
   tx(now.toLocaleDateString("en-GB") + "  " + fmtTime(now), W - M, 11, 9, 220, 235, 255, "right");
   tx("Signed: " + currentUser + " (" + loginMethod + ")", W - M, 19, 8, 200, 220, 250, "right");
@@ -809,7 +809,7 @@ function generatePDF() {
   // ── Status banner ──
   var isPass = fails.length === 0;
   fr(M, y, W - M * 2, 13, isPass ? 30 : 192, isPass ? 86 : 57, isPass ? 49 : 57);
-  tx(isPass ? "ALL PASS — All checks within limits / ผ่านทุกขั้นตอน" : "FAIL — " + fails.length + " item(s) require corrective action / " + fails.length + " รายการต้องแก้ไข",
+  tx(isPass ? "ALL PASS — All checks within limits" : "FAIL — " + fails.length + " item(s) require corrective action",
     W / 2, y + 8.5, 10, 255, 255, 255, "center");
   y += 18;
 
@@ -855,7 +855,7 @@ function generatePDF() {
       if (tmpVal) {
         nl(6);
         fr(M, y, W - M * 2, 5, 255, 245, 245);
-        tx("Temperature recorded: " + tmpVal + "°C", M + 2, y + 3.8, 7, 120, 30, 30);
+        tx("Temperature recorded: " + tmpVal + "C", M + 2, y + 3.8, 7, 120, 30, 30);
         y += 6;
       }
       if (com) {
@@ -899,7 +899,7 @@ function generatePDF() {
     var c = phColors[phase.cls] || [60, 60, 60];
     nl(12);
     fr(M, y, W - M * 2, 8, c[0], c[1], c[2]);
-    tx(phase.phase, M + 2, y + 5.5, 8, 255, 255, 255);
+    var phaseTitle = phase.phase.split("/")[0].trim(); tx(phaseTitle, M + 2, y + 5.5, 8, 255, 255, 255);
     y += 10;
 
     phase.items.forEach(function(item) {
@@ -921,7 +921,7 @@ function generatePDF() {
 
       var enText = item.en.length > 70 ? item.en.substring(0, 68) + "..." : item.en;
       tx(enText, M + 40, y + 4, 7.5, 20, 20, 20);
-      if (tmpVal) tx(tmpVal + "°C", M + 40, y + 9, 6, 60, 100, 160);
+      if (tmpVal) tx(tmpVal + "C", M + 40, y + 9, 6, 60, 100, 160);
 
       var ac = isFail ? [180, 20, 20] : isOK ? [30, 100, 30] : [100, 100, 100];
       tx(a, W - M - 2, y + 4, 9, ac[0], ac[1], ac[2], "right");
@@ -993,7 +993,7 @@ function generatePDF() {
   y += 8;
 
   var matrix = [
-    ["CCP-7","1.1+1.3","Cold Storage Temperature","≤ 3°C (set 1°C ±2°C)","Codex Prin.4+5|FDA GDA S.7.4","Salmonella/Listeria pathogen growth"],
+    ["CCP-7","1.1+1.3","Cold Storage Temperature","<= 3C (set 1C +/- 2C)","Codex Prin.4+5|FDA GDA S.7.4","Salmonella/Listeria pathogen growth"],
     ["CP","2.1+2.2","Compressor Startup","Unit confirmed running","Codex S.5|FDA GDA S.6.2","Process environment prerequisite"],
     ["CP","3.1+3.2","Processing Room Temperature","< 10°C before use","Codex Prin.4|FDA GDA S.6.2","Product temp integrity"],
     ["PRP","1.5","Cold Room Equipment","Visual — no defects","Codex S.5.3|FDA GDA S.5.3","Cold chain failure prevention"],
@@ -1018,7 +1018,7 @@ function generatePDF() {
   // 7 Principles
   nl(70);
   fr(M,y,W-M*2,8,30,86,49);
-  tx("CODEX ALIMENTARIUS — 7 HACCP PRINCIPLES / หลักการ HACCP 7 ประการ",M+2,y+5.5,9,255,255,255);
+  tx("CODEX ALIMENTARIUS — 7 HACCP PRINCIPLES",M+2,y+5.5,9,255,255,255);
   y += 10;
   var principles=[
     ["Principle 1","Conduct a Hazard Analysis","วิเคราะห์อันตราย","Hazard Register (see HACCP Plan document)"],
@@ -1034,8 +1034,8 @@ function generatePDF() {
     fr(M,y,W-M*2,7,i%2===0?243:252,i%2===0?248:255,i%2===0?243:255);
     tx(p[0],M+2,y+5,7.5,31,56,100);
     tx(p[1],M+28,y+5,7.5,20,20,20);
-    tx(p[2],M+105,y+5,7,100,100,100);
-    tx(p[3],M+145,y+5,6.5,60,80,120);
+    tx(p[2],M+110,y+5,7,100,100,100);
+    tx(p[3],M+148,y+5,6.5,60,80,120);
     y+=7;
   });
 
