@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>Prosun Farm — 4AM Startup Checklist</title>
+<title>Prosun Farm -- 4AM Startup Checklist</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
@@ -134,7 +134,7 @@ body{font-family:Arial,sans-serif;background:#f0f2f5;color:#1a1a1a;font-size:14p
   <div class="app-bar">
     <div class="icon"><i class="ti ti-building-factory-2"></i></div>
     <div>
-      <h1>Prosun Farm — HACCP</h1>
+      <h1>Prosun Farm -- HACCP</h1>
       <p>4AM Morning Startup Checklist / แบบตรวจสอบตอนเช้า</p>
     </div>
   </div>
@@ -172,7 +172,7 @@ body{font-family:Arial,sans-serif;background:#f0f2f5;color:#1a1a1a;font-size:14p
     <div class="icon"><i class="ti ti-clipboard-check"></i></div>
     <div>
       <h1>4AM Startup Checklist</h1>
-      <p id="hdr-date">—</p>
+      <p id="hdr-date">--</p>
     </div>
   </div>
   <div class="prog-wrap"><div class="prog-fill" id="prog-bar" style="width:0%"></div></div>
@@ -190,7 +190,7 @@ body{font-family:Arial,sans-serif;background:#f0f2f5;color:#1a1a1a;font-size:14p
     <div class="icon"><i class="ti ti-circle-check"></i></div>
     <div>
       <h1>Submitted / ส่งแล้ว</h1>
-      <p id="done-time">—</p>
+      <p id="done-time">--</p>
     </div>
   </div>
   <div class="done-wrap">
@@ -228,14 +228,14 @@ body{font-family:Arial,sans-serif;background:#f0f2f5;color:#1a1a1a;font-size:14p
 // ════════════════════════════════════════════════════════
 var CHECKS = [
   {
-    phase: "PHASE 1 — Cold Room Verification / ตรวจห้องเย็น",
+    phase: "PHASE 1 -- Cold Room Verification / ตรวจห้องเย็น",
     cls: "p1",
     items: [
       {
         id: "1.1",
-        en: "Chill Room 1 temperature (left — next to cutting room)",
-        th: "อุณหภูมิห้องเย็น 1 (ซ้าย — ข้างห้องตัด)",
-        lim: "CCP-7 — Auto validated — Must be 3°C or below",
+        en: "Chill Room 1 temperature (left -- next to cutting room)",
+        th: "อุณหภูมิห้องเย็น 1 (ซ้าย -- ข้างห้องตัด)",
+        lim: "CCP-7 -- Auto validated -- Must be 3°C or below",
         lt: "bc", temp: true, auto: true, limit: 3, limitOp: "lte",
         photo: true, photoTrigger: "temp",
         failMsg: "QUARANTINE all product in this room. Do not accept incoming stock. Call QA Manager immediately.",
@@ -243,9 +243,9 @@ var CHECKS = [
       },
       {
         id: "1.3",
-        en: "Chill Room 2 temperature (middle — between washing and weighing)",
-        th: "อุณหภูมิห้องเย็น 2 (กลาง — ระหว่างห้องล้างและชั่ง)",
-        lim: "CCP-7 — Auto validated — Must be 3°C or below",
+        en: "Chill Room 2 temperature (middle -- between washing and weighing)",
+        th: "อุณหภูมิห้องเย็น 2 (กลาง -- ระหว่างห้องล้างและชั่ง)",
+        lim: "CCP-7 -- Auto validated -- Must be 3°C or below",
         lt: "bc", temp: true, auto: true, limit: 3, limitOp: "lte",
         photo: true, photoTrigger: "temp",
         failMsg: "QUARANTINE all product in this room. Do not accept incoming stock. Call QA Manager immediately.",
@@ -255,7 +255,7 @@ var CHECKS = [
         id: "1.5",
         en: "Both cold rooms: no ice build-up on evaporator, doors fully sealed",
         th: "ห้องเย็นทั้งสอง: ไม่มีน้ำแข็งที่คอยล์ ประตูปิดสนิท",
-        lim: "PRP — Visual check — no defects",
+        lim: "PRP -- Visual check -- no defects",
         lt: "bo", temp: false, auto: false,
         photo: false, photoTrigger: "none",
         failMsg: "Record defect. Repair before use. Notify maintenance.",
@@ -264,14 +264,14 @@ var CHECKS = [
     ]
   },
   {
-    phase: "PHASE 2 — Compressor and Aircon Startup / เปิดเครื่อง",
+    phase: "PHASE 2 -- Compressor and Aircon Startup / เปิดเครื่อง",
     cls: "p2",
     items: [
       {
         id: "2.1",
-        en: "Turn on compressor / aircon — Washing Room. Confirm unit is running.",
-        th: "เปิดคอมเพรสเซอร์ / แอร์ — ห้องล้าง ยืนยันว่าเครื่องทำงาน",
-        lim: "CP — Confirm unit running / ยืนยันว่าเครื่องทำงาน",
+        en: "Turn on compressor / aircon -- Washing Room. Confirm unit is running.",
+        th: "เปิดคอมเพรสเซอร์ / แอร์ -- ห้องล้าง ยืนยันว่าเครื่องทำงาน",
+        lim: "CP -- Confirm unit running / ยืนยันว่าเครื่องทำงาน",
         lt: "bw", temp: false, auto: false,
         photo: true, photoTrigger: "dropdown",
         failMsg: "Check power supply and circuit breaker. Call maintenance immediately if unit does not start.",
@@ -279,9 +279,9 @@ var CHECKS = [
       },
       {
         id: "2.2",
-        en: "Turn on compressor / aircon — Cutting and Packing Room. Confirm unit is running.",
-        th: "เปิดคอมเพรสเซอร์ / แอร์ — ห้องตัดและแพ็ค ยืนยันว่าเครื่องทำงาน",
-        lim: "CP — Confirm unit running / ยืนยันว่าเครื่องทำงาน",
+        en: "Turn on compressor / aircon -- Cutting and Packing Room. Confirm unit is running.",
+        th: "เปิดคอมเพรสเซอร์ / แอร์ -- ห้องตัดและแพ็ค ยืนยันว่าเครื่องทำงาน",
+        lim: "CP -- Confirm unit running / ยืนยันว่าเครื่องทำงาน",
         lt: "bw", temp: false, auto: false,
         photo: true, photoTrigger: "dropdown",
         failMsg: "Check power supply and circuit breaker. Call maintenance immediately if unit does not start.",
@@ -289,9 +289,9 @@ var CHECKS = [
       },
       {
         id: "2.3",
-        en: "Turn on lights — all production zones",
-        th: "เปิดไฟ — ทุกพื้นที่การผลิต",
-        lim: "PRP — All lights functional",
+        en: "Turn on lights -- all production zones",
+        th: "เปิดไฟ -- ทุกพื้นที่การผลิต",
+        lim: "PRP -- All lights functional",
         lt: "bo", temp: false, auto: false,
         photo: false, photoTrigger: "none",
         failMsg: "Report faulty lights to maintenance before starting operations.",
@@ -299,9 +299,9 @@ var CHECKS = [
       },
       {
         id: "2.4",
-        en: "Turn on water supply — confirm pressure and flow normal",
-        th: "เปิดน้ำ — ยืนยันแรงดันและการไหลปกติ",
-        lim: "PRP — Adequate pressure, potable water confirmed",
+        en: "Turn on water supply -- confirm pressure and flow normal",
+        th: "เปิดน้ำ -- ยืนยันแรงดันและการไหลปกติ",
+        lim: "PRP -- Adequate pressure, potable water confirmed",
         lt: "bo", temp: false, auto: false,
         photo: false, photoTrigger: "none",
         failMsg: "Do not start washing operations until water supply is confirmed safe and adequate.",
@@ -310,14 +310,14 @@ var CHECKS = [
     ]
   },
   {
-    phase: "PHASE 3 — Pre-Receiving Verification / ตรวจก่อนรับสินค้า (04:30)",
+    phase: "PHASE 3 -- Pre-Receiving Verification / ตรวจก่อนรับสินค้า (04:30)",
     cls: "p3",
     items: [
       {
         id: "3.1",
-        en: "Washing Room temperature reached target — Auto validated",
-        th: "อุณหภูมิห้องล้างถึงเป้าหมาย — ตรวจสอบอัตโนมัติ",
-        lim: "CP — Auto validated — Must be below 10°C before use",
+        en: "Washing Room temperature reached target -- Auto validated",
+        th: "อุณหภูมิห้องล้างถึงเป้าหมาย -- ตรวจสอบอัตโนมัติ",
+        lim: "CP -- Auto validated -- Must be below 10°C before use",
         lt: "bc", temp: true, auto: true, limit: 10, limitOp: "lt",
         photo: true, photoTrigger: "temp",
         failMsg: "DO NOT start washing. Wait for room to reach below 10°C. Recheck every 10 minutes.",
@@ -325,9 +325,9 @@ var CHECKS = [
       },
       {
         id: "3.2",
-        en: "Cutting and Packing Room temperature reached target — Auto validated",
-        th: "อุณหภูมิห้องตัดถึงเป้าหมาย — ตรวจสอบอัตโนมัติ",
-        lim: "CP — Auto validated — Must be below 10°C before cutting begins",
+        en: "Cutting and Packing Room temperature reached target -- Auto validated",
+        th: "อุณหภูมิห้องตัดถึงเป้าหมาย -- ตรวจสอบอัตโนมัติ",
+        lim: "CP -- Auto validated -- Must be below 10°C before cutting begins",
         lt: "bc", temp: true, auto: true, limit: 10, limitOp: "lt",
         photo: true, photoTrigger: "temp",
         failMsg: "DO NOT start cutting. Wait for room to reach below 10°C. Recheck every 10 minutes.",
@@ -335,9 +335,9 @@ var CHECKS = [
       },
       {
         id: "3.5",
-        en: "Receiving and Weighing Area ambient temperature (record only — no aircon yet)",
-        th: "อุณหภูมิห้องรับสินค้า (บันทึกเท่านั้น — ยังไม่มีแอร์)",
-        lim: "Record only — not a CCP",
+        en: "Receiving and Weighing Area ambient temperature (record only -- no aircon yet)",
+        th: "อุณหภูมิห้องรับสินค้า (บันทึกเท่านั้น -- ยังไม่มีแอร์)",
+        lim: "Record only -- not a CCP",
         lt: "bo", temp: true, auto: true, limit: 99, limitOp: "lte",
         photo: true, photoTrigger: "temp",
         failMsg: "",
@@ -345,9 +345,9 @@ var CHECKS = [
       },
       {
         id: "3.6",
-        en: "Scale calibrated and zeroed — calibration sticker date valid?",
-        th: "ตาชั่งสอบเทียบและตั้งศูนย์ — สติกเกอร์วันที่ถูกต้อง?",
-        lim: "PRP — Valid calibration required",
+        en: "Scale calibrated and zeroed -- calibration sticker date valid?",
+        th: "ตาชั่งสอบเทียบและตั้งศูนย์ -- สติกเกอร์วันที่ถูกต้อง?",
+        lim: "PRP -- Valid calibration required",
         lt: "bo", temp: false, auto: false,
         photo: true, photoTrigger: "dropdown",
         failMsg: "Do not use scale until re-calibrated. Contact quality department.",
@@ -355,9 +355,9 @@ var CHECKS = [
       },
       {
         id: "3.7",
-        en: "PPE check — uniform, gloves, hairnet, shoe wash active",
-        th: "ตรวจ PPE — ชุดทำงาน ถุงมือ ตาข่ายคลุมผม อ่างล้างรองเท้า",
-        lim: "PRP — Full PPE required before entry",
+        en: "PPE check -- uniform, gloves, hairnet, shoe wash active",
+        th: "ตรวจ PPE -- ชุดทำงาน ถุงมือ ตาข่ายคลุมผม อ่างล้างรองเท้า",
+        lim: "PRP -- Full PPE required before entry",
         lt: "bo", temp: false, auto: false,
         photo: false, photoTrigger: "none",
         failMsg: "Do not allow entry to production area without full PPE.",
@@ -443,7 +443,7 @@ function updateProgress() {
 }
 
 // ════════════════════════════════════════════════════════
-// PHOTO PROCESSING — burn timestamp onto image via canvas
+// PHOTO PROCESSING -- burn timestamp onto image via canvas
 // ════════════════════════════════════════════════════════
 function processPhoto(stepId, file) {
   if (!file) return;
@@ -462,9 +462,9 @@ function processPhoto(stepId, file) {
 
       // Build label lines
       var item = getItem(stepId);
-      var stepLabel = item ? ("Step " + stepId + " — " + item.en) : ("Step " + stepId);
+      var stepLabel = item ? ("Step " + stepId + " -- " + item.en) : ("Step " + stepId);
       var now = new Date();
-      var line1 = "PROSUN FARM — HACCP";
+      var line1 = "PROSUN FARM -- HACCP";
       var line2 = stepLabel.length > 55 ? stepLabel.substring(0, 52) + "..." : stepLabel;
       var line3 = now.toLocaleDateString("en-GB") + "   " + fmtTimeFull(now);
       var line4 = currentUser + " (" + loginMethod + ")";
@@ -503,7 +503,7 @@ function processPhoto(stepId, file) {
       var stat = document.getElementById("pstat-" + stepId);
       var lbl = document.getElementById("plbl-" + stepId);
       if (prev) { prev.src = stamped; prev.style.display = "block"; }
-      if (stat) { stat.textContent = "Photo taken — " + fmtTimeFull(now); stat.className = "photo-status ps-done"; stat.style.display = "block"; }
+      if (stat) { stat.textContent = "Photo taken -- " + fmtTimeFull(now); stat.className = "photo-status ps-done"; stat.style.display = "block"; }
       if (lbl) { lbl.className = "photo-label done"; }
       updateProgress();
     };
@@ -539,7 +539,7 @@ function evalAutoTemp(id, val) {
   var item = getItem(id);
   if (!item) return;
 
-  // Step 3.5 is record-only — always OK
+  // Step 3.5 is record-only -- always OK
   if (id === "3.5") {
     var ar35 = document.getElementById("ar-" + id);
     if (ar35) {
@@ -557,14 +557,14 @@ function evalAutoTemp(id, val) {
   var fb = document.getElementById("fb-" + id);
 
   if (passed) {
-    if (ar) { ar.className = "auto-result auto-ok"; ar.textContent = "OK — " + val + "C — Within limit (limit: " + (item.limitOp === "lte" ? "<=" : "<") + item.limit + "C)"; ar.style.display = "block"; }
+    if (ar) { ar.className = "auto-result auto-ok"; ar.textContent = "OK -- " + val + "C -- Within limit (limit: " + (item.limitOp === "lte" ? "<=" : "<") + item.limit + "C)"; ar.style.display = "block"; }
     if (fb) fb.style.display = "none";
     setAnswer(id, "OK");
   } else {
-    if (ar) { ar.className = "auto-result auto-fail"; ar.textContent = "FAIL — " + val + "°C — Exceeds limit / ไม่ผ่าน (" + (item.limitOp === "lte" ? ">" : "≥") + item.limit + "°C)"; ar.style.display = "block"; }
+    if (ar) { ar.className = "auto-result auto-fail"; ar.textContent = "FAIL -- " + val + "°C -- Exceeds limit / ไม่ผ่าน (" + (item.limitOp === "lte" ? ">" : ">=") + item.limit + "°C)"; ar.style.display = "block"; }
     if (fb) fb.style.display = "block";
     setAnswer(id, "FAIL");
-    showToast("FAIL Step " + id + " — " + val + "°C exceeds limit. Corrective action required.");
+    showToast("FAIL Step " + id + " -- " + val + "°C exceeds limit. Corrective action required.");
   }
 
   if (item.photo) triggerCamera(id);
@@ -595,7 +595,7 @@ function buildChecklist() {
       d.className = "chk-item";
       d.id = "chk-" + item.id;
 
-      var html = "<div class='step-id'>Step " + item.id + (item.auto ? " — AUTO VALIDATED / ตรวจสอบอัตโนมัติ" : "") + "</div>"
+      var html = "<div class='step-id'>Step " + item.id + (item.auto ? " -- AUTO VALIDATED / ตรวจสอบอัตโนมัติ" : "") + "</div>"
         + "<div class='step-en'>" + item.en + "</div>"
         + "<div class='step-th'>" + item.th + "</div>"
         + "<div class='step-ref'><i class='ti ti-book-2'></i> " + item.ref + "</div>"
@@ -616,9 +616,9 @@ function buildChecklist() {
         // Manual dropdown
         html += "<div class='ans-row'>"
           + "<select class='ans-sel' id='ans-" + item.id + "'>"
-          + "<option value=''>— Select / เลือก —</option>"
-          + "<option value='OK'>OK — Pass / ผ่าน</option>"
-          + "<option value='FAIL'>FAIL — Issue found / พบปัญหา</option>"
+          + "<option value=''>-- Select / เลือก --</option>"
+          + "<option value='OK'>OK -- Pass / ผ่าน</option>"
+          + "<option value='FAIL'>FAIL -- Issue found / พบปัญหา</option>"
           + (item.lt === "bo" ? "<option value='N/A'>N/A</option>" : "")
           + "</select>"
           + "<span class='ts-lbl' id='ts-" + item.id + "'></span>"
@@ -643,9 +643,9 @@ function buildChecklist() {
         html += "<div class='fail-block' id='fb-" + item.id + "'>"
           + "<div class='fail-alert'><strong>Action required / ต้องดำเนินการ</strong>" + item.failMsg + "</div>"
           + "<span class='fail-lbl'>Comment / ความคิดเห็น</span>"
-          + "<textarea class='fail-ta' id='com-" + item.id + "' placeholder='Describe what you observed / อธิบายสิ่งที่พบ...' rows='2'></textarea>"
+          + "<textarea class='fail-ta' id='com-" + item.id + "' placeholder='Please type in English only / กรุณาพิมพ์เป็นภาษาอังกฤษเท่านั้น — Describe what you observed...' rows='2'></textarea>"
           + "<span class='fail-lbl'>Corrective Action / การแก้ไขที่ดำเนินการ</span>"
-          + "<textarea class='fail-ta' id='ca-" + item.id + "' placeholder='Action taken / การแก้ไข...' rows='2'></textarea>"
+          + "<textarea class='fail-ta' id='ca-" + item.id + "' placeholder='Please type in English only / กรุณาพิมพ์เป็นภาษาอังกฤษเท่านั้น — Corrective action taken...' rows='2'></textarea>"
           + "</div>";
       }
 
@@ -658,7 +658,7 @@ function buildChecklist() {
 }
 
 // ════════════════════════════════════════════════════════
-// EVENT DELEGATION — temperature input
+// EVENT DELEGATION -- temperature input
 // ════════════════════════════════════════════════════════
 document.addEventListener("input", function(e) {
   var el = e.target;
@@ -672,7 +672,7 @@ document.addEventListener("input", function(e) {
 });
 
 // ════════════════════════════════════════════════════════
-// EVENT DELEGATION — dropdown change + file input
+// EVENT DELEGATION -- dropdown change + file input
 // ════════════════════════════════════════════════════════
 document.addEventListener("change", function(e) {
   var el = e.target;
@@ -688,7 +688,7 @@ document.addEventListener("change", function(e) {
     el.className = "ans-sel " + (v === "OK" ? "ok" : v === "FAIL" ? "fail" : "");
     var fb = document.getElementById("fb-" + id);
     if (fb) fb.style.display = v === "FAIL" ? "block" : "none";
-    if (v === "FAIL") showToast("FAIL on Step " + id + " — corrective action required");
+    if (v === "FAIL") showToast("FAIL on Step " + id + " -- corrective action required");
     // Trigger camera for dropdown-triggered photo steps
     var item = getItem(id);
     if (item && item.photo && item.photoTrigger === "dropdown" && !photoTaken[id]) {
@@ -800,7 +800,7 @@ function generatePDF() {
   // ── Header ──
   fr(0, 0, W, 30, 31, 56, 100);
   tx("PROSUN FARM", M, 11, 17, 255, 255, 255);
-  tx("HACCP Morning Startup Checklist — Raw Poultry Processing", M, 19, 9, 180, 205, 235);
+  tx("HACCP Morning Startup Checklist -- Raw Poultry Processing", M, 19, 9, 180, 205, 235);
   tx("Ref: Codex CAC/RCP 1-1969 Rev.4 + Thai FDA GDA", M, 26, 7, 140, 170, 210);
   tx(now.toLocaleDateString("en-GB") + "  " + fmtTime(now), W - M, 11, 9, 220, 235, 255, "right");
   tx("Signed: " + currentUser + " (" + loginMethod + ")", W - M, 19, 8, 200, 220, 250, "right");
@@ -809,7 +809,7 @@ function generatePDF() {
   // ── Status banner ──
   var isPass = fails.length === 0;
   fr(M, y, W - M * 2, 13, isPass ? 30 : 192, isPass ? 86 : 57, isPass ? 49 : 57);
-  tx(isPass ? "ALL PASS — All checks within limits" : "FAIL — " + fails.length + " item(s) require corrective action",
+  tx(isPass ? "ALL PASS -- All checks within limits" : "FAIL -- " + fails.length + " item(s) require corrective action",
     W / 2, y + 8.5, 10, 255, 255, 255, "center");
   y += 18;
 
@@ -835,7 +835,7 @@ function generatePDF() {
   if (fails.length > 0) {
     nl(15);
     fr(M, y, W - M * 2, 8, 192, 57, 57);
-    tx("FAIL SUMMARY — Items requiring corrective action", M + 2, y + 5.5, 9, 255, 255, 255);
+    tx("FAIL SUMMARY -- Items requiring corrective action", M + 2, y + 5.5, 9, 255, 255, 255);
     y += 11;
     fails.forEach(function(id) {
       var item = getItem(id);
@@ -887,7 +887,7 @@ function generatePDF() {
           var xo = M + (W - M * 2 - dw) / 2;
           doc.addImage(photoData[id], ext, xo, y, dw, dh);
           y += dh + 3;
-        } catch(e) { tx("(photo — could not render)", M + 2, y + 4, 7, 100, 100, 100); y += 8; }
+        } catch(e) { tx("(photo -- could not render)", M + 2, y + 4, 7, 100, 100, 100); y += 8; }
       }
       y += 4;
     });
@@ -903,7 +903,7 @@ function generatePDF() {
     y += 10;
 
     phase.items.forEach(function(item) {
-      var a = answers[item.id] || "—";
+      var a = answers[item.id] || "--";
       var isFail = (a === "FAIL");
       var isOK = (a === "OK" || a === "N/A");
       var tmpEl = document.getElementById("tmp-" + item.id);
@@ -927,9 +927,12 @@ function generatePDF() {
       tx(a, W - M - 2, y + 4, 9, ac[0], ac[1], ac[2], "right");
       if (timestamps[item.id]) tx(timestamps[item.id], W - M - 14, y + 4, 6, 140, 140, 140, "right");
 
-      // Ref line
-      var refShort = item.ref.split("|")[0].trim() + " | " + item.ref.split("|")[1].trim();
-      tx(refShort, M + 2, y + 9, 5.5, 120, 140, 170);
+      // Ref line -- truncated to fit column
+      var refParts = item.ref.split("|");
+      var refShort = refParts[0].trim();
+      if (refParts.length > 1) refShort += " | " + refParts[1].trim();
+      if (refShort.length > 90) refShort = refShort.substring(0, 88) + "...";
+      tx(refShort, M + 2, y + 9, 5, 120, 140, 170);
 
       y += rowH + 1;
 
@@ -956,7 +959,7 @@ function generatePDF() {
   doc.addPage(); y = 14;
   fr(0, 0, W, 30, 31, 56, 100);
   tx("HACCP REGULATORY REFERENCE TABLE", M, 11, 13, 255, 255, 255);
-  tx("Prosun Farm — Raw Poultry Processing — Morning Startup Checklist", M, 19, 9, 180, 205, 235);
+  tx("Prosun Farm -- Raw Poultry Processing -- Morning Startup Checklist", M, 19, 9, 180, 205, 235);
   tx("Codex Alimentarius CAC/RCP 1-1969 Rev.4 + Thai FDA GDA", M, 26, 7, 140, 170, 210);
   y = 36;
 
@@ -967,7 +970,7 @@ function generatePDF() {
     ["Codex Alimentarius", "CAC/RCP 1-1969 Rev.4 (2003)", "General Principles of Food Hygiene incl. HACCP System"],
     ["Thai FDA", "GDA Notification B.E. 2561 (2018)", "Good Manufacturing Practice for Food Production"],
     ["Thai FDA", "Notification No. 349 (2010)", "Food Labelling and Product Traceability Requirements"],
-    ["ISO 22000:2018", "Clause 8.5", "Food Safety Management — HACCP Principles Application"],
+    ["ISO 22000:2018", "Clause 8.5", "Food Safety Management -- HACCP Principles Application"],
   ];
   standards.forEach(function(r, i) {
     fr(M, y, 50, 6, i%2===0?238:250,i%2===0?244:255,i%2===0?248:255);
@@ -995,8 +998,8 @@ function generatePDF() {
   var matrix = [
     ["CCP-7","1.1+1.3","Cold Storage Temperature","<= 3C (set 1C +/- 2C)","Codex Prin.4+5|FDA GDA S.7.4","Salmonella/Listeria pathogen growth"],
     ["CP","2.1+2.2","Compressor Startup","Unit confirmed running","Codex S.5|FDA GDA S.6.2","Process environment prerequisite"],
-    ["CP","3.1+3.2","Processing Room Temperature","< 10°C before use","Codex Prin.4|FDA GDA S.6.2","Product temp integrity"],
-    ["PRP","1.5","Cold Room Equipment","Visual — no defects","Codex S.5.3|FDA GDA S.5.3","Cold chain failure prevention"],
+    ["CP","3.1+3.2","Processing Room Temperature","< 10C before use","Codex Prin.4|FDA GDA S.6.2","Product temp integrity"],
+    ["PRP","1.5","Cold Room Equipment","Visual -- no defects","Codex S.5.3|FDA GDA S.5.3","Cold chain failure prevention"],
     ["PRP","2.3","Lighting","All zones functional","Codex S.5.2|FDA GDA S.5.2","Foreign body prevention"],
     ["PRP","2.4","Water Supply","Potable + adequate","Codex S.5.3|FDA GDA S.5.1","Microbial contamination"],
     ["PRP","3.5","Ambient Temp Record","Record only","Codex Prin.7|FDA GDA S.8","Traceability documentation"],
@@ -1018,24 +1021,23 @@ function generatePDF() {
   // 7 Principles
   nl(70);
   fr(M,y,W-M*2,8,30,86,49);
-  tx("CODEX ALIMENTARIUS — 7 HACCP PRINCIPLES",M+2,y+5.5,9,255,255,255);
+  tx("CODEX ALIMENTARIUS -- 7 HACCP PRINCIPLES",M+2,y+5.5,9,255,255,255);
   y += 10;
   var principles=[
-    ["Principle 1","Conduct a Hazard Analysis","วิเคราะห์อันตราย","Hazard Register (see HACCP Plan document)"],
-    ["Principle 2","Identify Critical Control Points","กำหนด CCP","CCP-7 (Cold Storage) — see matrix above"],
-    ["Principle 3","Establish Critical Limits","กำหนดขีดจำกัดวิกฤต","≤3°C cold rooms | <10°C processing rooms"],
-    ["Principle 4","Establish Monitoring Procedures","กำหนดวิธีตรวจติดตาม","← This checklist (auto-validated + timestamped)"],
-    ["Principle 5","Establish Corrective Actions","กำหนดมาตรการแก้ไข","← FAIL comment + corrective action fields"],
-    ["Principle 6","Establish Verification","กำหนดวิธีการตรวจสอบ","← Auto-validation + photo evidence"],
-    ["Principle 7","Documentation and Records","จัดทำเอกสารและบันทึก","← This PDF (signed, timestamped, photo-evidenced)"],
+    ["Principle 1","Conduct a Hazard Analysis","Hazard Register (see HACCP Plan document)"],
+    ["Principle 2","Identify Critical Control Points (CCPs)","CCP-7 Cold Storage -- see matrix above"],
+    ["Principle 3","Establish Critical Limits","<= 3C cold rooms | < 10C processing rooms"],
+    ["Principle 4","Establish Monitoring Procedures","This checklist -- auto-validated + timestamped"],
+    ["Principle 5","Establish Corrective Actions","FAIL comment + corrective action fields"],
+    ["Principle 6","Establish Verification Procedures","Auto-validation + mandatory photo evidence"],
+    ["Principle 7","Establish Documentation and Record Keeping","This PDF -- signed, timestamped, photo-evidenced"],
   ];
   principles.forEach(function(p,i){
     nl(7);
     fr(M,y,W-M*2,7,i%2===0?243:252,i%2===0?248:255,i%2===0?243:255);
     tx(p[0],M+2,y+5,7.5,31,56,100);
     tx(p[1],M+28,y+5,7.5,20,20,20);
-    tx(p[2],M+110,y+5,7,100,100,100);
-    tx(p[3],M+148,y+5,6.5,60,80,120);
+    tx(p[2],M+105,y+5,6.5,60,80,120);
     y+=7;
   });
 
@@ -1064,7 +1066,7 @@ function showEmailModal() {
   document.getElementById("btn-do-send").addEventListener("click", function() {
     var email = document.getElementById("ceo-email").value || "clement@klongphaifarm.com";
     area.innerHTML = "";
-    document.getElementById("sent-to").textContent = "Sent to: " + email + " — " + (window._fname || "");
+    document.getElementById("sent-to").textContent = "Sent to: " + email + " -- " + (window._fname || "");
     document.getElementById("email-sent").style.display = "block";
     generatePDF();
   });
@@ -1074,7 +1076,7 @@ function showEmailModal() {
 }
 
 // ════════════════════════════════════════════════════════
-// BOOT — event listeners on DOMContentLoaded
+// BOOT -- event listeners on DOMContentLoaded
 // ════════════════════════════════════════════════════════
 document.addEventListener("DOMContentLoaded", function() {
   showScreen("sc-login");
