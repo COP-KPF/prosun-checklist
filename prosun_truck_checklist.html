@@ -1,0 +1,1201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Prosun Farm -- Truck Cold Box Checklist</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,sans-serif;background:#f0f2f5;color:#1a1a1a;font-size:14px;-webkit-text-size-adjust:100%}
+.screen{display:none}.screen.active{display:block}
+
+/* APP BAR */
+.app-bar{background:#1F3864;color:#fff;padding:14px 16px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:100}
+.app-bar .icon{width:36px;height:36px;background:rgba(255,255,255,0.15);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.app-bar h1{font-size:14px;font-weight:600;line-height:1.2}
+.app-bar p{font-size:11px;opacity:.7;margin-top:2px}
+.prog-wrap{height:4px;background:rgba(0,0,0,0.15)}
+.prog-fill{height:4px;background:#06C755;transition:width .4s ease}
+
+/* TOAST */
+.toast{background:#C00000;color:#fff;padding:10px 16px;font-size:12px;display:none;align-items:center;gap:8px;position:sticky;top:64px;z-index:99}
+.toast.show{display:flex}
+
+/* LOGIN */
+.wrap{padding:20px 16px;max-width:480px;margin:0 auto}
+.card{background:#fff;border:1px solid #e0e4ea;border-radius:12px;padding:22px 18px;margin-bottom:14px;box-shadow:0 1px 3px rgba(0,0,0,0.06)}
+.card h2{font-size:16px;font-weight:700;margin-bottom:4px;color:#1F3864}
+.card p{font-size:12px;color:#888;margin-bottom:18px;line-height:1.5}
+.line-btn{width:100%;background:#06C755;color:#fff;border:none;border-radius:10px;padding:14px;font-size:14px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;-webkit-tap-highlight-color:transparent}
+.line-btn:active{opacity:.85}
+.divider{display:flex;align-items:center;gap:10px;margin:16px 0;color:#bbb;font-size:11px}
+.divider::before,.divider::after{content:'';flex:1;height:1px;background:#e8e8e8}
+.field-lbl{font-size:12px;color:#555;font-weight:600;margin-bottom:6px;display:block}
+.field-row{display:flex;gap:8px;margin-bottom:12px}
+.field-row input,.field-row select{flex:1;padding:12px;border-radius:8px;border:1.5px solid #d0d5dd;background:#fff;font-size:14px;-webkit-appearance:none;appearance:none}
+.field-row input[type=password]{letter-spacing:4px;text-align:center;font-size:16px}
+.field-row input:focus,.field-row select:focus{outline:none;border-color:#1F3864}
+.field-row button{padding:12px 16px;background:#1F3864;color:#fff;border:none;border-radius:8px;cursor:pointer;font-size:14px;font-weight:600;-webkit-tap-highlight-color:transparent}
+.field-row button:active{opacity:.85}
+.pin-err{color:#C00000;font-size:12px;display:none;margin-top:4px;padding:6px 10px;background:#FFF0F0;border-radius:6px}
+
+/* CHECKLIST */
+.phase-hdr{padding:10px 16px;font-size:11px;font-weight:700;display:flex;align-items:center;gap:6px;color:#fff;letter-spacing:.3px}
+.p1{background:#1F3864}.p2{background:#C55A11}.p3{background:#1E5631}
+.chk-item{background:#fff;border-bottom:1px solid #f0f2f5;padding:14px 16px}
+.step-id{font-size:10px;color:#aaa;margin-bottom:3px;font-weight:600;letter-spacing:.5px}
+.step-en{font-size:13px;font-weight:700;margin-bottom:3px;color:#1a1a1a;line-height:1.3}
+.step-th{font-size:11px;color:#999;margin-bottom:8px;line-height:1.4}
+.step-ref{font-size:9px;color:#7a8fa6;margin-bottom:8px;line-height:1.4;padding:4px 8px;background:#f0f4f8;border-radius:4px;border-left:2px solid #2F5496}
+.badge{display:inline-block;font-size:10px;font-weight:700;padding:3px 10px;border-radius:20px;margin-bottom:10px}
+.bc{background:#FCEBEB;color:#A32D2D}.bo{background:#EAF3DE;color:#1E5631}.bw{background:#FFF0D0;color:#7A4F00}
+
+/* TEMP INPUT */
+.temp-row{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.temp-inp{width:96px;padding:10px;border-radius:8px;border:1.5px solid #d0d5dd;font-size:18px;text-align:center;font-weight:600;-webkit-appearance:none}
+.temp-inp:focus{outline:none;border-color:#1F3864}
+.temp-unit{font-size:13px;color:#666;font-weight:500}
+
+/* AUTO RESULT */
+.auto-result{padding:11px 14px;border-radius:8px;font-size:13px;font-weight:700;text-align:center;margin-bottom:10px;display:none;letter-spacing:.2px}
+.auto-ok{background:#EAF3DE;color:#1E5631;border:1.5px solid #5A9E3A}
+.auto-fail{background:#FCEBEB;color:#A32D2D;border:1.5px solid #E24B4A}
+
+/* DROPDOWN */
+.ans-row{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.ans-sel{flex:1;padding:11px 12px;border-radius:8px;border:1.5px solid #d0d5dd;background:#fff;font-size:14px;font-weight:600;-webkit-appearance:none;appearance:none;cursor:pointer}
+.ans-sel:focus{outline:none;border-color:#1F3864}
+.ans-sel.ok{background:#EAF3DE;border-color:#5A9E3A;color:#1E5631}
+.ans-sel.fail{background:#FCEBEB;border-color:#E24B4A;color:#A32D2D}
+.ts-lbl{font-size:10px;color:#aaa;min-width:40px;text-align:right}
+
+/* PHOTO */
+.photo-wrap{margin-top:10px}
+.photo-label{display:flex;align-items:center;gap:10px;padding:12px 14px;background:#EBF3FB;border:1.5px dashed #2F5496;border-radius:8px;cursor:pointer;font-size:12px;color:#1F3864;font-weight:700;width:100%;-webkit-tap-highlight-color:transparent}
+.photo-label i{font-size:20px;flex-shrink:0}
+.photo-label.done{background:#EAF3DE;border-color:#5A9E3A;color:#1E5631}
+.photo-preview{width:100%;border-radius:8px;margin-top:8px;display:none;border:1px solid #d0d5dd;max-height:220px;object-fit:cover}
+.photo-status{font-size:11px;margin-top:5px;font-weight:600}
+.ps-missing{color:#C00000}.ps-done{color:#1E5631}
+
+/* FAIL BOX */
+.fail-block{display:none;margin-top:10px}
+.fail-alert{background:#FFF0F0;border:1px solid #E24B4A;border-radius:8px;padding:10px 12px;font-size:11px;color:#A32D2D;line-height:1.5;margin-bottom:8px}
+.fail-alert strong{display:block;margin-bottom:3px;font-size:12px;font-weight:700}
+.fail-lbl{font-size:11px;color:#A32D2D;font-weight:700;margin-bottom:4px;margin-top:8px;display:block}
+.fail-ta{width:100%;padding:9px 11px;border-radius:6px;border:1.5px solid #E24B4A;background:#FFF8F8;font-size:12px;min-height:56px;resize:vertical;font-family:Arial,sans-serif}
+.fail-ta:focus{outline:none;border-color:#A32D2D}
+
+/* SUBMIT BAR */
+.sub-bar{padding:12px 16px;border-top:1px solid #e0e4ea;display:flex;align-items:center;gap:12px;background:#fff;position:sticky;bottom:0;z-index:99;box-shadow:0 -2px 8px rgba(0,0,0,0.06)}
+.prog-txt{font-size:12px;color:#888;flex:1}
+.sub-btn{padding:11px 20px;background:#1F3864;color:#fff;border:none;border-radius:8px;cursor:pointer;font-size:14px;font-weight:700;-webkit-tap-highlight-color:transparent;white-space:nowrap}
+.sub-btn:disabled{opacity:.3;cursor:not-allowed}
+.sub-btn:not(:disabled):active{opacity:.85}
+
+/* DONE SCREEN */
+.done-wrap{padding:28px 16px 40px;max-width:480px;margin:0 auto;text-align:center}
+.done-icon{width:60px;height:60px;border-radius:50%;background:#EAF3DE;margin:0 auto 14px;display:flex;align-items:center;justify-content:center}
+.done-wrap h2{font-size:18px;font-weight:700;margin-bottom:6px;color:#1a1a1a}
+.done-wrap .sub{font-size:12px;color:#888;margin-bottom:4px}
+.sum-card{background:#f8f9fb;border:1px solid #e0e4ea;border-radius:12px;padding:14px 16px;margin:16px 0;text-align:left}
+.sum-row{display:flex;justify-content:space-between;font-size:12px;padding:5px 0;border-bottom:1px solid #eee}
+.sum-row:last-child{border:none}
+.sum-lbl{color:#888}
+.s-ok{color:#1E5631;font-weight:700}.s-fail{color:#A32D2D;font-weight:700}
+.act-btns{display:flex;flex-direction:column;gap:10px;margin-top:4px}
+.dl-btn{width:100%;padding:13px;background:#1F3864;color:#fff;border:none;border-radius:10px;cursor:pointer;font-size:14px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:8px;-webkit-tap-highlight-color:transparent}
+.dl-btn:active{opacity:.85}
+.sec-btn{width:100%;padding:13px;background:#fff;color:#1a1a1a;border:1.5px solid #d0d5dd;border-radius:10px;cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center;gap:8px}
+.sec-btn:active{background:#f4f6f9}
+.reset-btn{width:100%;padding:11px;background:transparent;color:#888;border:1px solid #d0d5dd;border-radius:8px;cursor:pointer;font-size:13px}
+.fname-hint{font-size:10px;color:#aaa;margin-top:4px;font-style:italic;text-align:center;word-break:break-all}
+.email-sent-box{background:#EAF3DE;border-radius:10px;padding:14px;text-align:center;font-size:12px;color:#1E5631;display:none;margin-top:4px}
+.rec-link{width:100%;padding:13px;background:#1E5631;color:#fff;border:none;border-radius:10px;cursor:pointer;font-size:13px;font-weight:700;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:8px}
+.rec-link:active{opacity:.85}
+
+/* EMAIL MODAL */
+.modal-bg{background:rgba(0,0,0,0.5);border-radius:10px;padding:16px;margin-top:10px}
+.modal-box{background:#fff;border-radius:12px;padding:20px 16px}
+.modal-box h3{font-size:14px;font-weight:700;margin-bottom:4px;color:#1F3864}
+.modal-box p{font-size:11px;color:#888;margin-bottom:12px}
+.modal-box input{width:100%;padding:11px 12px;border-radius:8px;border:1.5px solid #d0d5dd;font-size:13px;margin-bottom:10px}
+.modal-box input:focus{outline:none;border-color:#1F3864}
+.modal-btns{display:flex;gap:8px}
+.m-send{flex:1;padding:11px;background:#1F3864;color:#fff;border:none;border-radius:8px;cursor:pointer;font-size:13px;font-weight:700}
+.m-cancel{flex:1;padding:11px;background:#fff;color:#666;border:1.5px solid #d0d5dd;border-radius:8px;cursor:pointer;font-size:13px}
+
+.extra-field{margin-top:10px}
+.extra-lbl{font-size:12px;color:#555;font-weight:600;margin-bottom:5px;display:block}
+.extra-inp{width:100%;padding:11px 12px;border-radius:8px;border:1.5px solid #d0d5dd;background:#fff;font-size:13px;-webkit-appearance:none;appearance:none}
+.extra-inp:focus{outline:none;border-color:#1F3864}
+.session-badge{display:inline-block;font-size:10px;font-weight:700;padding:4px 12px;border-radius:20px;margin-bottom:14px;background:#EBF3FB;color:#1F3864;letter-spacing:.3px}
+</style>
+</head>
+<body>
+
+<!-- ═══════════ SCREEN 1: LOGIN ═══════════ -->
+<div id="sc-login" class="screen active">
+  <div class="app-bar">
+    <div class="icon"><i class="ti ti-truck-delivery"></i></div>
+    <div>
+      <h1>Prosun Farm -- HACCP</h1>
+      <p>Truck Cold Box Checklist / แบบตรวจกล่องเย็นรถบรรทุก</p>
+    </div>
+  </div>
+  <div class="wrap" style="padding-top:24px">
+    <div class="card">
+      <h2>Sign in / เข้าสู่ระบบ</h2>
+      <p>Your PIN identifies your role automatically -- no separate role selection needed.<br>PIN ของคุณระบุตำแหน่งโดยอัตโนมัติ ไม่ต้องเลือกตำแหน่งแยก</p>
+
+      <span class="field-lbl">Truck / รถบรรทุก</span>
+      <div class="field-row">
+        <select id="truck-sel">
+          <option value="champ">Toyota Champ</option>
+          <option value="revo">Toyota Hilux Revo</option>
+        </select>
+      </div>
+
+      <span class="field-lbl">Checklist / แบบตรวจ</span>
+      <div class="field-row">
+        <select id="session-sel">
+          <option value="evening">Evening -- Post-Service Cleaning / ทำความสะอาดหลังเลิกงาน</option>
+          <option value="morning">Morning -- Pre-Loading Check / ตรวจก่อนโหลดสินค้า</option>
+        </select>
+      </div>
+
+      <span class="field-lbl">PIN (4 digits / 4 หลัก)</span>
+      <div class="field-row">
+        <input type="password" id="pin-field" maxlength="4" placeholder="••••"
+          inputmode="numeric" pattern="[0-9]*"
+          autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+        <button id="btn-pin">Enter</button>
+      </div>
+      <div class="pin-err" id="pin-err">Incorrect PIN. Try again. / PIN ไม่ถูกต้อง</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ SCREEN 2: CHECKLIST ═══════════ -->
+<div id="sc-check" class="screen">
+  <div class="app-bar">
+    <div class="icon"><i class="ti ti-clipboard-check"></i></div>
+    <div>
+      <h1 id="chk-title">Truck Cold Box Checklist</h1>
+      <p id="hdr-date">--</p>
+    </div>
+  </div>
+  <div class="prog-wrap"><div class="prog-fill" id="prog-bar" style="width:0%"></div></div>
+  <div class="toast" id="toast"><i class="ti ti-alert-triangle"></i><span id="toast-msg"></span></div>
+  <div id="chk-body" style="padding-bottom:80px"></div>
+  <div class="sub-bar">
+    <div class="prog-txt" id="prog-txt">0 / 0 completed</div>
+    <button class="sub-btn" id="btn-submit" disabled>Submit ▶</button>
+  </div>
+</div>
+
+<!-- ═══════════ SCREEN 3: DONE ═══════════ -->
+<div id="sc-done" class="screen">
+  <div class="app-bar">
+    <div class="icon"><i class="ti ti-circle-check"></i></div>
+    <div>
+      <h1>Submitted / ส่งแล้ว</h1>
+      <p id="done-time">--</p>
+    </div>
+  </div>
+  <div class="done-wrap">
+    <div class="done-icon"><i class="ti ti-circle-check" style="color:#1E5631;font-size:30px"></i></div>
+    <h2>Checklist complete / เสร็จสิ้น</h2>
+    <p class="sub">Signed and timestamped / ลงนามและประทับเวลาแล้ว</p>
+    <p class="sub" id="signed-by"></p>
+    <div class="sum-card" id="sum-card"></div>
+    <div class="act-btns">
+      <button class="dl-btn" id="btn-dl"><i class="ti ti-file-type-pdf"></i> Download PDF Report</button>
+      <button class="sec-btn" id="btn-email"><i class="ti ti-mail"></i> Email PDF to CEO</button>
+      <div class="fname-hint" id="fname-hint"></div>
+      <div id="email-area"></div>
+      <div class="email-sent-box" id="email-sent">
+        <i class="ti ti-circle-check"></i> Email sent / ส่งอีเมลแล้ว<br>
+        <span id="sent-to" style="font-size:10px;opacity:.8"></span>
+      </div>
+      <a class="rec-link" href="prosun_checklist_app.html">
+        <i class="ti ti-sun"></i> Open Morning Checklist / แบบตรวจตอนเช้า
+      </a>
+      <a class="rec-link" href="prosun_receiving_checklist.html" style="background:#1F3864;margin-top:2px">
+        <i class="ti ti-truck-delivery"></i> Open Receiving Checklist / แบบตรวจรับสินค้า
+      </a>
+      <a class="rec-link" href="prosun_midday_checklist.html" style="background:#C55A11;margin-top:2px">
+        <i class="ti ti-sun-high"></i> Open Midday Checklist / แบบตรวจตอนเที่ยง
+      </a>
+      <a class="rec-link" href="prosun_eod_checklist.html" style="background:#7A1E1E;margin-top:2px">
+        <i class="ti ti-moon"></i> Open EOD Checklist / แบบตรวจปิดวัน
+      </a>
+      <button class="reset-btn" id="btn-reset"><i class="ti ti-refresh"></i> New checklist / เริ่มใหม่</button>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
+<script>
+
+// ════════════════════════════════════════════════════════
+// PIN -> IDENTITY MAP
+// PIN determines both the person AND the role -- no separate
+// role dropdown exists, closing the PIN/role mismatch gap
+// found in the MOD/EOD checklists.
+// ════════════════════════════════════════════════════════
+var PIN_MAP = {
+  "8863": { name: "CEO",                        role: "ceo",     allowed: ["evening","morning"] },
+  "9071": { name: "Delivery Manager",            role: "manager", allowed: ["morning"] },
+  "9072": { name: "Delivery Staff -- GOLF",       role: "staff",   allowed: ["evening"] },
+  "9073": { name: "Delivery Staff -- MAC",        role: "staff",   allowed: ["evening"] }
+};
+
+var TRUCKS = { champ: "Toyota Champ", revo: "Toyota Hilux Revo" };
+
+var SESSION_LABEL = {
+  evening: "Evening -- Post-Service Cleaning",
+  morning: "Morning -- Pre-Loading Check"
+};
+var SESSION_LABEL_TH = {
+  evening: "ทำความสะอาดหลังเลิกงาน",
+  morning: "ตรวจก่อนโหลดสินค้า"
+};
+
+// ════════════════════════════════════════════════════════
+// CHECKLIST DATA -- split by session
+// Fields: id, en, th, lim (badge label), lt (badge class bc/bo/bw),
+//   temp (bool), auto (bool), limit (number), limitOp (lte/lt),
+//   photo (bool), photoTrigger (dropdown/temp), failMsg,
+//   ref (regulatory ref string for on-screen display),
+//   ccpRef / critLimit / hazard (for PDF reference matrix),
+//   extra (array of extra input fields: {key,label,type,options,placeholder})
+// ════════════════════════════════════════════════════════
+var CHECKS_BY_SESSION = {
+
+  evening: [
+    {
+      phase: "EVENING -- Post-Service Cold Box Cleaning / ทำความสะอาดกล่องเย็นหลังเลิกงาน",
+      cls: "p2",
+      items: [
+        {
+          id: "E1",
+          en: "Cold box emptied -- confirm no leftover product, packaging, or organic debris (blood, offal, ice melt residue)",
+          th: "ตรวจสอบว่านำสินค้า บรรจุภัณฑ์ และเศษซากออกจากกล่องเย็นหมดแล้ว",
+          lim: "PRP -- Visual check -- box fully empty",
+          lt: "bo", temp: false, auto: false,
+          photo: true, photoTrigger: "dropdown",
+          failMsg: "Product or debris left in cold box. Remove all items before starting the clean. Notify Delivery Manager.",
+          ref: "PRP | Codex CAC/RCP 1-1969 Rev.4 Annex Transport | Thai FDA GDA Section 5",
+          ccpRef: "PRP", critLimit: "Visual -- box empty", hazard: "Cross-contamination between delivery runs"
+        },
+        {
+          id: "E2",
+          en: "Physical scrub -- floor, walls, door seals, and drainage channel scrubbed clean of organic matter",
+          th: "ขัดล้างพื้น ผนัง ยางขอบประตู และร่องระบายน้ำให้สะอาดจากคราบสกปรก",
+          lim: "PRP -- Confirm scrubbed",
+          lt: "bo", temp: false, auto: false,
+          photo: true, photoTrigger: "dropdown",
+          failMsg: "Scrubbing incomplete. Return and scrub floor, walls, seals and drainage channel before sanitizing. Notify Delivery Manager.",
+          ref: "PRP | Codex CAC/RCP 1-1969 Rev.4 Section 6 Cleaning | Thai FDA GDA Section 5.2",
+          ccpRef: "PRP", critLimit: "Visual -- no organic residue", hazard: "Microbial contamination from organic residue"
+        },
+        {
+          id: "E3",
+          en: "Chlorine sanitizing applied and rinsed with potable water",
+          th: "ฆ่าเชื้อด้วยคลอรีนและล้างด้วยน้ำสะอาดเรียบร้อยแล้ว",
+          lim: "PRP -- Confirm sanitized + rinsed",
+          lt: "bo", temp: false, auto: false,
+          photo: true, photoTrigger: "dropdown",
+          failMsg: "Sanitizing/rinse incomplete. Re-apply chlorine sanitizer at correct concentration, then rinse fully with potable water. Notify Delivery Manager.",
+          ref: "PRP | Codex CAC/RCP 1-1969 Rev.4 Section 6 Cleaning and Sanitation | Thai FDA GDA Section 5.2",
+          ccpRef: "PRP", critLimit: "Chlorine sanitizer + potable water rinse", hazard: "Chemical residue / under-sanitization microbial risk",
+          extra: [
+            { key: "chlorine", label: "Chlorine concentration used (ppm) / ความเข้มข้นคลอรีน (ppm)", type: "text", placeholder: "e.g. 200" }
+          ]
+        },
+        {
+          id: "E4",
+          en: "Drainage check -- no pooled water or residue sitting in the cold box after rinse",
+          th: "ตรวจสอบท่อระบายน้ำ -- ไม่มีน้ำขังหรือคราบสกปรกหลังล้าง",
+          lim: "PRP -- Visual check -- no standing water",
+          lt: "bo", temp: false, auto: false,
+          photo: true, photoTrigger: "dropdown",
+          failMsg: "Standing water/residue found. Clear the drainage channel and re-check before closing up. Overnight harborage risk for Listeria.",
+          ref: "PRP | Codex CAC/RCP 1-1969 Rev.4 Section 6.3 | Thai FDA GDA Section 5.4",
+          ccpRef: "PRP", critLimit: "Visual -- no standing water", hazard: "Listeria monocytogenes harborage in standing water"
+        },
+        {
+          id: "E5",
+          en: "Structural check -- door seals/gaskets intact, no cracks, corrosion, or exposed insulation on interior surfaces",
+          th: "ตรวจสภาพโครงสร้าง -- ยางขอบประตูสมบูรณ์ ไม่มีรอยแตก สนิม หรือฉนวนโผล่",
+          lim: "PRP -- Visual check -- structure sound",
+          lt: "bo", temp: false, auto: false,
+          photo: true, photoTrigger: "dropdown",
+          failMsg: "Structural damage found. Report to Delivery Manager / maintenance before the truck runs again -- risk of cold loss or physical contamination.",
+          ref: "PRP | Codex CAC/RCP 1-1969 Rev.4 Section 5 Maintenance | Thai FDA GDA Section 5.3",
+          ccpRef: "PRP", critLimit: "Visual -- seals/gaskets/panels intact", hazard: "Physical contamination, cold chain loss from damaged seals"
+        },
+        {
+          id: "E6",
+          en: "Pest check -- no droppings, gnaw marks, or insects present in the cold box",
+          th: "ตรวจสอบศัตรูพืช -- ไม่พบมูล รอยกัดแทะ หรือแมลงในกล่องเย็น",
+          lim: "PRP -- Visual check -- no pest evidence",
+          lt: "bo", temp: false, auto: false,
+          photo: true, photoTrigger: "dropdown",
+          failMsg: "Pest evidence found. Do not load product. Notify Delivery Manager / QA Manager immediately for pest control action.",
+          ref: "PRP | Codex CAC/RCP 1-1969 Rev.4 Section 5 Pest Control | Thai FDA GDA Section 4",
+          ccpRef: "PRP", critLimit: "Visual -- no pest evidence", hazard: "Pest contamination"
+        },
+        {
+          id: "E7",
+          en: "Cold box left empty and door closed and secured for the night",
+          th: "ปิดประตูกล่องเย็นและล็อกให้เรียบร้อยหลังทำความสะอาด",
+          lim: "PRP -- Confirm door secured",
+          lt: "bo", temp: false, auto: false,
+          photo: true, photoTrigger: "dropdown",
+          failMsg: "Door not secured. Return and close/lock the cold box door immediately -- overnight pest and contamination risk.",
+          ref: "PRP | Codex CAC/RCP 1-1969 Rev.4 Section 5 Facility Security | Thai FDA GDA Section 4",
+          ccpRef: "PRP", critLimit: "Confirm closed and secured", hazard: "Pest ingress overnight"
+        }
+      ]
+    }
+  ],
+
+  morning: [
+    {
+      phase: "MORNING -- Pre-Loading Check / ตรวจก่อนโหลดสินค้า",
+      cls: "p1",
+      items: [
+        {
+          id: "M1",
+          en: "Visual re-check of cold box -- still clean from evening service, nothing stored overnight, no new pest evidence",
+          th: "ตรวจสอบกล่องเย็นซ้ำ -- ยังสะอาดจากเมื่อคืน ไม่มีของเก็บไว้ค้างคืน ไม่พบศัตรูพืชใหม่",
+          lim: "PRP -- Visual check -- still clean",
+          lt: "bo", temp: false, auto: false,
+          photo: true, photoTrigger: "dropdown",
+          failMsg: "Cold box not clean or shows new contamination/pest evidence. Do not load. Re-clean and notify Delivery Manager / QA Manager before proceeding.",
+          ref: "PRP | Codex CAC/RCP 1-1969 Rev.4 Annex Transport | Thai FDA GDA Section 5",
+          ccpRef: "PRP", critLimit: "Visual -- still clean, no overnight storage", hazard: "Contamination from unauthorized overnight storage"
+        },
+        {
+          id: "M2",
+          en: "Cold box pre-cool verification -- temperature reading taken before loading begins",
+          th: "ตรวจอุณหภูมิกล่องเย็นก่อนเริ่มโหลดสินค้า",
+          lim: "CCP -- Auto validated -- Must be -18°C or below",
+          lt: "bc", temp: true, auto: true, limit: -18, limitOp: "lte",
+          photo: true, photoTrigger: "temp",
+          failMsg: "Cold box has not reached -18°C. DO NOT begin loading. Allow the unit more pre-cool time and re-check. Notify Delivery Manager.",
+          ref: "CCP-8 | Codex CAC/RCP 1-1969 Rev.4 Principle 4+5 | Codex CAC/GS 42-1999 Quick Frozen Foods | EU 853/2004 Annex III",
+          ccpRef: "CCP-8", critLimit: "<= -18C before loading", hazard: "Pathogen growth from loading into a warm cold box"
+        },
+        {
+          id: "M3",
+          en: "Door seal check -- gaskets functioning, door closes and seals fully before departure",
+          th: "ตรวจยางขอบประตู -- ใช้งานได้ดี ปิดสนิทก่อนออกรถ",
+          lim: "PRP -- Visual check -- seal intact",
+          lt: "bo", temp: false, auto: false,
+          photo: true, photoTrigger: "dropdown",
+          failMsg: "Door seal faulty or not sealing. Do not depart -- cold loss during transit. Notify Delivery Manager / maintenance.",
+          ref: "PRP | Codex CAC/RCP 1-1969 Rev.4 Section 5 Maintenance | Thai FDA GDA Section 5.3",
+          ccpRef: "PRP", critLimit: "Visual -- seal intact, door closes fully", hazard: "Cold chain loss in transit from a faulty seal"
+        },
+        {
+          id: "M4",
+          en: "Product loading temperature check -- reading taken as product is loaded into the cold box",
+          th: "ตรวจอุณหภูมิสินค้าขณะโหลดเข้ากล่องเย็น",
+          lim: "CCP -- Auto validated -- Must be -18°C or below",
+          lt: "bc", temp: true, auto: true, limit: -18, limitOp: "lte",
+          photo: true, photoTrigger: "temp",
+          failMsg: "Loading temperature exceeds -18°C. STOP loading. Quarantine product, re-verify cold box temperature, and notify QA Manager before resuming.",
+          ref: "CCP-8 | Codex CAC/RCP 1-1969 Rev.4 Principle 4+5 | Codex CAC/GS 42-1999 | EU 853/2004 Annex III",
+          ccpRef: "CCP-8", critLimit: "<= -18C during loading", hazard: "Pathogen growth / cold chain break at final control point before departure"
+        },
+        {
+          id: "M5",
+          en: "Departure confirmation -- record departure temperature, driver, and destination before the truck leaves",
+          th: "ยืนยันก่อนออกรถ -- บันทึกอุณหภูมิ คนขับ และจุดหมายปลายทาง",
+          lim: "CP -- Auto validated -- Must be -18°C or below",
+          lt: "bw", temp: true, auto: true, limit: -18, limitOp: "lte",
+          photo: true, photoTrigger: "temp",
+          failMsg: "Departure temperature exceeds -18°C. Hold the truck, do not depart, and notify Delivery Manager / QA Manager immediately.",
+          ref: "CP | Codex CAC/RCP 1-1969 Rev.4 Principle 7 Record Keeping | Thai FDA GDA Section 7.4",
+          ccpRef: "CP", critLimit: "<= -18C at departure, logged with driver/destination", hazard: "Loss of traceability / cold chain break after leaving factory control",
+          extra: [
+            { key: "driver", label: "Driver / คนขับ", type: "select", options: [["GOLF","GOLF"],["MAC","MAC"],["OTHER","Other"]] },
+            { key: "dest", label: "Destination / Route / จุดหมายปลายทาง", type: "text", placeholder: "e.g. Bangkok -- Client ABC" }
+          ]
+        }
+      ]
+    }
+  ]
+};
+
+// ════════════════════════════════════════════════════════
+// STATE
+// ════════════════════════════════════════════════════════
+var currentUser = "";
+var currentRole = "";
+var currentTruck = "";
+var currentSession = "evening";
+var currentChecks = CHECKS_BY_SESSION.evening;
+var loginMethod = "PIN";
+var answers = {};       // stepId -> "OK" | "FAIL" | "pending"
+var timestamps = {};    // stepId -> "HH:MM"
+var photoData = {};     // stepId -> base64 jpeg string
+var photoTaken = {};    // stepId -> bool
+
+// ════════════════════════════════════════════════════════
+// UTILITIES
+// ════════════════════════════════════════════════════════
+function showScreen(id) {
+  var all = document.querySelectorAll(".screen");
+  for (var i = 0; i < all.length; i++) {
+    all[i].classList.remove("active");
+  }
+  document.getElementById(id).classList.add("active");
+  window.scrollTo(0, 0);
+}
+
+function fmtTime(d) {
+  return String(d.getHours()).padStart(2, "0") + ":" + String(d.getMinutes()).padStart(2, "0");
+}
+
+function fmtTimeFull(d) {
+  return String(d.getHours()).padStart(2, "0") + ":" +
+         String(d.getMinutes()).padStart(2, "0") + ":" +
+         String(d.getSeconds()).padStart(2, "0");
+}
+
+function getAllItems() {
+  var items = [];
+  for (var i = 0; i < currentChecks.length; i++) {
+    for (var j = 0; j < currentChecks[i].items.length; j++) {
+      items.push(currentChecks[i].items[j]);
+    }
+  }
+  return items;
+}
+
+function getItem(id) {
+  var all = getAllItems();
+  for (var i = 0; i < all.length; i++) {
+    if (all[i].id === id) return all[i];
+  }
+  return null;
+}
+
+function showToast(msg) {
+  var t = document.getElementById("toast");
+  var m = document.getElementById("toast-msg");
+  m.textContent = msg;
+  t.classList.add("show");
+  setTimeout(function() { t.classList.remove("show"); }, 4500);
+}
+
+function updateProgress() {
+  var items = getAllItems();
+  var total = items.length;
+  var done = 0;
+  for (var i = 0; i < items.length; i++) {
+    var item = items[i];
+    var id = item.id;
+    var answered = (answers[id] === "OK" || answers[id] === "FAIL");
+    var photoOK = !item.photo || photoTaken[id];
+    if (answered && photoOK) done++;
+  }
+  var pct = total > 0 ? Math.round(done / total * 100) : 0;
+  document.getElementById("prog-bar").style.width = pct + "%";
+  document.getElementById("prog-txt").textContent = done + " / " + total + " completed";
+  document.getElementById("btn-submit").disabled = (done < total);
+}
+
+// ════════════════════════════════════════════════════════
+// PHOTO PROCESSING -- burn timestamp + truck onto image via canvas
+// ════════════════════════════════════════════════════════
+function processPhoto(stepId, file) {
+  if (!file) return;
+  var reader = new FileReader();
+  reader.onload = function(ev) {
+    var src = ev.target.result;
+    var img = new Image();
+    img.onload = function() {
+      var canvas = document.createElement("canvas");
+      canvas.width = img.width;
+      canvas.height = img.height;
+      var ctx = canvas.getContext("2d");
+
+      ctx.drawImage(img, 0, 0);
+
+      var item = getItem(stepId);
+      var stepLabel = item ? ("Step " + stepId + " -- " + item.en) : ("Step " + stepId);
+      var now = new Date();
+      var line1 = "PROSUN FARM -- HACCP -- " + currentTruck;
+      var line2 = stepLabel.length > 55 ? stepLabel.substring(0, 52) + "..." : stepLabel;
+      var line3 = now.toLocaleDateString("en-GB") + "   " + fmtTimeFull(now);
+      var line4 = currentUser + " (" + loginMethod + ")";
+      var lines = [line1, line2, line3, line4];
+
+      var fs = Math.max(20, Math.round(img.width * 0.026));
+      var lh = Math.round(fs * 1.5);
+      var pad = Math.round(fs * 0.8);
+      var blockH = lines.length * lh + pad * 2;
+      var yTop = img.height - blockH - pad;
+
+      ctx.fillStyle = "rgba(0,0,0,0.6)";
+      ctx.fillRect(0, yTop - pad / 2, img.width, blockH + pad);
+
+      ctx.shadowColor = "rgba(0,0,0,1)";
+      ctx.shadowBlur = 5;
+      ctx.shadowOffsetX = 1;
+      ctx.shadowOffsetY = 1;
+
+      lines.forEach(function(line, i) {
+        var isTimeLine = (i === 2);
+        ctx.font = "bold " + (isTimeLine ? Math.round(fs * 1.1) : fs) + "px Arial";
+        ctx.fillStyle = isTimeLine ? "#FFD700" : "#FFFFFF";
+        ctx.fillText(line, pad, yTop + i * lh + fs);
+      });
+
+      var stamped = canvas.toDataURL("image/jpeg", 0.90);
+      photoData[stepId] = stamped;
+      photoTaken[stepId] = true;
+
+      var prev = document.getElementById("prev-" + stepId);
+      var stat = document.getElementById("pstat-" + stepId);
+      var lbl = document.getElementById("plbl-" + stepId);
+      if (prev) { prev.src = stamped; prev.style.display = "block"; }
+      if (stat) { stat.textContent = "Photo taken -- " + fmtTimeFull(now); stat.className = "photo-status ps-done"; stat.style.display = "block"; }
+      if (lbl) { lbl.className = "photo-label done"; }
+      updateProgress();
+    };
+    img.src = src;
+  };
+  reader.readAsDataURL(file);
+}
+
+// ════════════════════════════════════════════════════════
+// TRIGGER CAMERA
+// ════════════════════════════════════════════════════════
+function triggerCamera(stepId) {
+  if (photoTaken[stepId]) return;
+  var fi = document.getElementById("pfile-" + stepId);
+  if (fi) {
+    setTimeout(function() { fi.click(); }, 200);
+  }
+}
+
+// ════════════════════════════════════════════════════════
+// SET ANSWER
+// ════════════════════════════════════════════════════════
+function setAnswer(id, val) {
+  answers[id] = val;
+  timestamps[id] = fmtTime(new Date());
+  updateProgress();
+}
+
+// ════════════════════════════════════════════════════════
+// AUTO VALIDATE TEMPERATURE
+// ════════════════════════════════════════════════════════
+function evalAutoTemp(id, val) {
+  var item = getItem(id);
+  if (!item) return;
+
+  var passed = item.limitOp === "lte" ? val <= item.limit : val < item.limit;
+  var ar = document.getElementById("ar-" + id);
+  var fb = document.getElementById("fb-" + id);
+
+  if (passed) {
+    if (ar) { ar.className = "auto-result auto-ok"; ar.textContent = "OK -- " + val + "°C -- Within limit (limit: " + (item.limitOp === "lte" ? "<=" : "<") + item.limit + "°C)"; ar.style.display = "block"; }
+    if (fb) fb.style.display = "none";
+    setAnswer(id, "OK");
+  } else {
+    if (ar) { ar.className = "auto-result auto-fail"; ar.textContent = "FAIL -- " + val + "°C -- Exceeds limit / ไม่ผ่าน (" + (item.limitOp === "lte" ? ">" : ">=") + item.limit + "°C)"; ar.style.display = "block"; }
+    if (fb) fb.style.display = "block";
+    setAnswer(id, "FAIL");
+    showToast("FAIL Step " + id + " -- " + val + "°C exceeds limit. Corrective action required.");
+  }
+
+  if (item.photo) triggerCamera(id);
+}
+
+// ════════════════════════════════════════════════════════
+// BUILD CHECKLIST DOM
+// ════════════════════════════════════════════════════════
+function buildChecklist() {
+  var body = document.getElementById("chk-body");
+  body.innerHTML = "";
+
+  for (var pi = 0; pi < currentChecks.length; pi++) {
+    var phase = currentChecks[pi];
+
+    var hdr = document.createElement("div");
+    hdr.className = "phase-hdr " + phase.cls;
+    hdr.innerHTML = "<i class='ti ti-chevron-right'></i> " + phase.phase;
+    body.appendChild(hdr);
+
+    for (var ii = 0; ii < phase.items.length; ii++) {
+      var item = phase.items[ii];
+      answers[item.id] = "pending";
+      if (item.photo) photoTaken[item.id] = false;
+
+      var d = document.createElement("div");
+      d.className = "chk-item";
+      d.id = "chk-" + item.id;
+
+      var html = "<div class='step-id'>Step " + item.id + (item.auto ? " -- AUTO VALIDATED / ตรวจสอบอัตโนมัติ" : "") + "</div>"
+        + "<div class='step-en'>" + item.en + "</div>"
+        + "<div class='step-th'>" + item.th + "</div>"
+        + "<div class='step-ref'><i class='ti ti-book-2'></i> " + item.ref + "</div>"
+        + "<span class='badge " + item.lt + "'>" + item.lim + "</span>";
+
+      if (item.temp) {
+        html += "<div class='temp-row'>"
+          + "<input type='number' class='temp-inp' id='tmp-" + item.id + "' step='0.1' placeholder='0.0' inputmode='decimal'>"
+          + "<span class='temp-unit'>°C</span>"
+          + "</div>";
+      }
+
+      if (item.auto) {
+        html += "<div class='auto-result' id='ar-" + item.id + "'></div>";
+      } else {
+        html += "<div class='ans-row'>"
+          + "<select class='ans-sel' id='ans-" + item.id + "'>"
+          + "<option value=''>-- Select / เลือก --</option>"
+          + "<option value='OK'>OK -- Pass / ผ่าน</option>"
+          + "<option value='FAIL'>FAIL -- Issue found / พบปัญหา</option>"
+          + "</select>"
+          + "<span class='ts-lbl' id='ts-" + item.id + "'></span>"
+          + "</div>";
+      }
+
+      // Extra fields (chlorine ppm, driver, destination, etc.)
+      if (item.extra) {
+        item.extra.forEach(function(f) {
+          html += "<div class='extra-field'><span class='extra-lbl'>" + f.label + "</span>";
+          if (f.type === "select") {
+            html += "<select class='extra-inp' id='ex-" + item.id + "-" + f.key + "'>";
+            f.options.forEach(function(o) { html += "<option value='" + o[0] + "'>" + o[1] + "</option>"; });
+            html += "</select>";
+          } else {
+            html += "<input type='text' class='extra-inp' id='ex-" + item.id + "-" + f.key + "' placeholder='" + (f.placeholder || "") + "'>";
+          }
+          html += "</div>";
+        });
+      }
+
+      if (item.photo) {
+        html += "<div class='photo-wrap'>"
+          + "<label class='photo-label' id='plbl-" + item.id + "'>"
+          + "<i class='ti ti-camera'></i>"
+          + "<span>Take photo / ถ่ายรูป (mandatory / บังคับ)</span>"
+          + "<input type='file' accept='image/*' capture='environment' style='display:none' id='pfile-" + item.id + "'>"
+          + "</label>"
+          + "<img class='photo-preview' id='prev-" + item.id + "' alt='Photo preview'>"
+          + "<div class='photo-status ps-missing' id='pstat-" + item.id + "' style='display:block'>Photo required / ต้องถ่ายรูป</div>"
+          + "</div>";
+      }
+
+      if (item.failMsg) {
+        html += "<div class='fail-block' id='fb-" + item.id + "'>"
+          + "<div class='fail-alert'><strong>Action required / ต้องดำเนินการ</strong>" + item.failMsg + "</div>"
+          + "<span class='fail-lbl'>Comment / ความคิดเห็น</span>"
+          + "<textarea class='fail-ta' id='com-" + item.id + "' placeholder='Please type in English only / กรุณาพิมพ์เป็นภาษาอังกฤษเท่านั้น — Describe what you observed...' rows='2'></textarea>"
+          + "<span class='fail-lbl'>Corrective Action / การแก้ไขที่ดำเนินการ</span>"
+          + "<textarea class='fail-ta' id='ca-" + item.id + "' placeholder='Please type in English only / กรุณาพิมพ์เป็นภาษาอังกฤษเท่านั้น — Corrective action taken...' rows='2'></textarea>"
+          + "</div>";
+      }
+
+      d.innerHTML = html;
+      body.appendChild(d);
+    }
+  }
+
+  updateProgress();
+}
+
+// ════════════════════════════════════════════════════════
+// EVENT DELEGATION -- temperature input
+// ════════════════════════════════════════════════════════
+document.addEventListener("input", function(e) {
+  var el = e.target;
+  if (el.classList && el.classList.contains("temp-inp") && el.id) {
+    var id = el.id.replace("tmp-", "");
+    var val = parseFloat(el.value);
+    if (!isNaN(val) && el.value !== "") {
+      evalAutoTemp(id, val);
+    }
+  }
+});
+
+// ════════════════════════════════════════════════════════
+// EVENT DELEGATION -- dropdown change + file input
+// ════════════════════════════════════════════════════════
+document.addEventListener("change", function(e) {
+  var el = e.target;
+
+  if (el.classList && el.classList.contains("ans-sel") && el.id) {
+    var id = el.id.replace("ans-", "");
+    var v = el.value;
+    if (!v) return;
+    setAnswer(id, v);
+    var tsEl = document.getElementById("ts-" + id);
+    if (tsEl) tsEl.textContent = timestamps[id];
+    el.className = "ans-sel " + (v === "OK" ? "ok" : v === "FAIL" ? "fail" : "");
+    var fb = document.getElementById("fb-" + id);
+    if (fb) fb.style.display = v === "FAIL" ? "block" : "none";
+    if (v === "FAIL") showToast("FAIL on Step " + id + " -- corrective action required");
+    var item = getItem(id);
+    if (item && item.photo && item.photoTrigger === "dropdown" && !photoTaken[id]) {
+      triggerCamera(id);
+    }
+  }
+
+  if (el.type === "file" && el.id && el.id.indexOf("pfile-") === 0) {
+    var stepId = el.id.replace("pfile-", "");
+    if (el.files && el.files[0]) {
+      processPhoto(stepId, el.files[0]);
+    }
+  }
+});
+
+// ════════════════════════════════════════════════════════
+// LOGIN -- PIN determines identity + role; session must match
+// the role's allowed session(s), closing the PIN/role gap
+// ════════════════════════════════════════════════════════
+function doLogin() {
+  var truckKey = document.getElementById("truck-sel").value;
+  var session = document.getElementById("session-sel").value;
+  var p = document.getElementById("pin-field").value.trim();
+  var user = PIN_MAP[p];
+  var errEl = document.getElementById("pin-err");
+
+  if (!user) {
+    errEl.textContent = "Incorrect PIN. Try again. / PIN ไม่ถูกต้อง";
+    errEl.style.display = "block";
+    document.getElementById("pin-field").value = "";
+    document.getElementById("pin-field").style.borderColor = "#C00000";
+    setTimeout(function() { document.getElementById("pin-field").style.borderColor = ""; }, 1500);
+    return;
+  }
+
+  if (user.allowed.indexOf(session) === -1) {
+    errEl.textContent = "This PIN (" + user.name + ") is not authorized for the " + SESSION_LABEL[session] + " checklist. / PIN นี้ไม่ได้รับอนุญาตสำหรับแบบตรวจนี้";
+    errEl.style.display = "block";
+    document.getElementById("pin-field").value = "";
+    return;
+  }
+
+  errEl.style.display = "none";
+  currentUser = user.name;
+  currentRole = user.role;
+  currentTruck = TRUCKS[truckKey];
+  currentSession = session;
+  currentChecks = CHECKS_BY_SESSION[session];
+  loginMethod = "PIN";
+  answers = {}; timestamps = {}; photoData = {}; photoTaken = {};
+
+  var now = new Date();
+  document.getElementById("chk-title").textContent = "Truck -- " + SESSION_LABEL[session];
+  document.getElementById("hdr-date").textContent =
+    currentTruck + "  |  " +
+    now.toLocaleDateString("th-TH", {weekday:"long", year:"numeric", month:"long", day:"numeric"}) +
+    "  " + fmtTime(now);
+  buildChecklist();
+  showScreen("sc-check");
+}
+
+// ════════════════════════════════════════════════════════
+// SUBMIT
+// ════════════════════════════════════════════════════════
+function doSubmit() {
+  var now = new Date();
+  var items = getAllItems();
+  var fails = [];
+  var okCount = 0;
+  for (var i = 0; i < items.length; i++) {
+    if (answers[items[i].id] === "FAIL") fails.push(items[i].id);
+    if (answers[items[i].id] === "OK" || answers[items[i].id] === "N/A") okCount++;
+  }
+  var status = fails.length === 0 ? "PASS" : "FAIL";
+
+  document.getElementById("done-time").textContent = now.toLocaleDateString("en-GB") + " at " + fmtTime(now);
+  document.getElementById("signed-by").textContent = "Signed by: " + currentUser + " via " + loginMethod + " -- " + currentTruck;
+
+  var html = "<div class='sum-row'><span class='sum-lbl'>Truck</span><span>" + currentTruck + "</span></div>"
+    + "<div class='sum-row'><span class='sum-lbl'>Checklist</span><span>" + SESSION_LABEL[currentSession] + "</span></div>"
+    + "<div class='sum-row'><span class='sum-lbl'>Status</span><span class='" + (status === "PASS" ? "s-ok" : "s-fail") + "'>" + status + "</span></div>"
+    + "<div class='sum-row'><span class='sum-lbl'>Total checks</span><span>" + items.length + "</span></div>"
+    + "<div class='sum-row'><span class='sum-lbl'>Passed</span><span class='s-ok'>" + okCount + "</span></div>"
+    + "<div class='sum-row'><span class='sum-lbl'>Failed</span><span class='" + (fails.length > 0 ? "s-fail" : "s-ok") + "'>" + fails.length + "</span></div>"
+    + "<div class='sum-row'><span class='sum-lbl'>Signed by</span><span>" + currentUser + "</span></div>"
+    + "<div class='sum-row'><span class='sum-lbl'>Time</span><span>" + fmtTime(now) + "</span></div>";
+  if (fails.length > 0) {
+    html += "<div class='sum-row'><span class='sum-lbl s-fail'>Failed steps</span><span class='s-fail'>" + fails.join(", ") + "</span></div>";
+  }
+  document.getElementById("sum-card").innerHTML = html;
+
+  var yy = now.getFullYear();
+  var mm = String(now.getMonth() + 1).padStart(2, "0");
+  var dd = String(now.getDate()).padStart(2, "0");
+  var truckShort = currentTruck.replace("Toyota ", "");
+  var sessionShort = currentSession === "evening" ? "Evening Cleaning" : "Morning Pre-Loading";
+  var fname = "TRUCK - " + truckShort + " - " + sessionShort + " Checklist - " + yy + mm + dd + " - " + status + ".pdf";
+  document.getElementById("fname-hint").textContent = "File: " + fname;
+
+  window._fname = fname;
+  window._fails = fails;
+  window._okCount = okCount;
+  window._status = status;
+  window._time = now;
+
+  showScreen("sc-done");
+}
+
+// ════════════════════════════════════════════════════════
+// PDF GENERATION
+// ════════════════════════════════════════════════════════
+function generatePDF() {
+  if (!window.jspdf) {
+    alert("PDF library is still loading. Please wait a moment and try again.");
+    return;
+  }
+  var jsPDF = window.jspdf.jsPDF;
+  var doc = new jsPDF({orientation:"portrait", unit:"mm", format:"a4"});
+  var W = 210, M = 14, y = 0;
+  var now = window._time || new Date();
+  var fails = window._fails || [];
+  var fname = window._fname || "checklist.pdf";
+  var items = getAllItems();
+
+  function fr(x, yy, w, h, r, g, b) { doc.setFillColor(r, g, b); doc.rect(x, yy, w, h, "F"); }
+  function tx(t, x, yy, sz, r, g, b, al) { doc.setFontSize(sz); doc.setTextColor(r || 0, g || 0, b || 0); doc.text(String(t), x, yy, {align: al || "left"}); }
+  function nl(n) { if (y + n > 272) { doc.addPage(); y = 14; } }
+
+  function extraVal(id, key) {
+    var el = document.getElementById("ex-" + id + "-" + key);
+    return el ? (el.value || "") : "";
+  }
+
+  // ── Header ──
+  fr(0, 0, W, 30, 31, 56, 100);
+  tx("PROSUN FARM", M, 11, 17, 255, 255, 255);
+  tx("HACCP Truck Cold Box Checklist -- " + SESSION_LABEL[currentSession] + " -- " + currentTruck, M, 19, 9, 180, 205, 235);
+  tx("Ref: Codex CAC/RCP 1-1969 Rev.4 + Codex CAC/GS 42-1999 + Thai FDA GDA", M, 26, 7, 140, 170, 210);
+  tx(now.toLocaleDateString("en-GB") + "  " + fmtTime(now), W - M, 11, 9, 220, 235, 255, "right");
+  tx("Signed: " + currentUser + " (" + loginMethod + ")", W - M, 19, 8, 200, 220, 250, "right");
+  y = 36;
+
+  // ── Status banner ──
+  var isPass = fails.length === 0;
+  fr(M, y, W - M * 2, 13, isPass ? 30 : 192, isPass ? 86 : 57, isPass ? 49 : 57);
+  tx(isPass ? "ALL PASS -- All checks within limits" : "FAIL -- " + fails.length + " item(s) require corrective action",
+    W / 2, y + 8.5, 10, 255, 255, 255, "center");
+  y += 18;
+
+  // ── Summary table ──
+  var sumRows = [
+    ["Truck", currentTruck],
+    ["Checklist", SESSION_LABEL[currentSession]],
+    ["Total checks", String(items.length)],
+    ["Passed", String(window._okCount || 0)],
+    ["Failed", String(fails.length)],
+    ["Submitted", now.toLocaleDateString("en-GB") + " " + fmtTime(now)],
+    ["Signed by", currentUser + " (" + loginMethod + ")"],
+    ["Standard", "Codex CAC/RCP 1-1969 Rev.4 + CAC/GS 42-1999 + Thai FDA GDA"]
+  ];
+  sumRows.forEach(function(r, i) {
+    fr(M, y, 80, 6, i % 2 === 0 ? 243 : 252, i % 2 === 0 ? 246 : 255, i % 2 === 0 ? 250 : 255);
+    fr(M + 80, y, W - M * 2 - 80, 6, i % 2 === 0 ? 238 : 250, i % 2 === 0 ? 244 : 255, i % 2 === 0 ? 248 : 255);
+    tx(r[0], M + 2, y + 4.5, 8, 80, 80, 80);
+    tx(r[1], M + 83, y + 4.5, 8, 20, 20, 20);
+    y += 6;
+  });
+  y += 6;
+
+  // ── FAIL summary ──
+  if (fails.length > 0) {
+    nl(15);
+    fr(M, y, W - M * 2, 8, 192, 57, 57);
+    tx("FAIL SUMMARY -- Items requiring corrective action", M + 2, y + 5.5, 9, 255, 255, 255);
+    y += 11;
+    fails.forEach(function(id) {
+      var item = getItem(id);
+      if (!item) return;
+      var tmpEl = document.getElementById("tmp-" + id);
+      var tmpVal = tmpEl ? (tmpEl.value || "") : "";
+      var comEl = document.getElementById("com-" + id);
+      var caEl = document.getElementById("ca-" + id);
+      var com = comEl ? (comEl.value || "") : "";
+      var ca = caEl ? (caEl.value || "") : "";
+
+      nl(20);
+      fr(M, y, W - M * 2, 8, 255, 233, 233);
+      doc.setDrawColor(210, 70, 70); doc.rect(M, y, W - M * 2, 8, "S");
+      tx("Step " + id + ": " + item.en, M + 2, y + 5.5, 8, 150, 20, 20);
+      y += 9;
+      if (tmpVal) {
+        nl(6);
+        fr(M, y, W - M * 2, 5, 255, 245, 245);
+        tx("Temperature recorded: " + tmpVal + "C", M + 2, y + 3.8, 7, 120, 30, 30);
+        y += 6;
+      }
+      if (item.extra) {
+        item.extra.forEach(function(f) {
+          var v = extraVal(id, f.key);
+          if (v) {
+            nl(6);
+            fr(M, y, W - M * 2, 5, 255, 245, 245);
+            tx(f.label.split("/")[0].trim() + ": " + v, M + 2, y + 3.8, 7, 120, 30, 30);
+            y += 6;
+          }
+        });
+      }
+      if (com) {
+        var cl = doc.splitTextToSize("Comment: " + com, W - M * 2 - 4);
+        nl(cl.length * 4 + 4);
+        fr(M, y, W - M * 2, cl.length * 4 + 3, 255, 250, 240);
+        doc.setFontSize(7); doc.setTextColor(100, 50, 0);
+        cl.forEach(function(l, li) { doc.text(l, M + 2, y + 3 + li * 4); });
+        y += cl.length * 4 + 4;
+      }
+      if (ca) {
+        var cal = doc.splitTextToSize("Corrective action: " + ca, W - M * 2 - 4);
+        nl(cal.length * 4 + 4);
+        fr(M, y, W - M * 2, cal.length * 4 + 3, 240, 250, 240);
+        doc.setFontSize(7); doc.setTextColor(30, 80, 30);
+        cal.forEach(function(l, li) { doc.text(l, M + 2, y + 3 + li * 4); });
+        y += cal.length * 4 + 4;
+      }
+      if (photoData[id]) {
+        nl(58);
+        try {
+          var ext = photoData[id].indexOf("image/png") > -1 ? "PNG" : "JPEG";
+          var pi = new Image(); pi.src = photoData[id];
+          var iw = pi.naturalWidth || 1920, ih = pi.naturalHeight || 1080;
+          var ratio = iw / ih;
+          var dw = W - M * 2, dh = dw / ratio;
+          if (dh > 55) { dh = 55; dw = dh * ratio; }
+          var xo = M + (W - M * 2 - dw) / 2;
+          doc.addImage(photoData[id], ext, xo, y, dw, dh);
+          y += dh + 3;
+        } catch(e) { tx("(photo -- could not render)", M + 2, y + 4, 7, 100, 100, 100); y += 8; }
+      }
+      y += 4;
+    });
+  }
+
+  // ── Full checklist ──
+  var phColors = {p1:[31,56,100], p2:[197,90,17], p3:[30,86,49]};
+  currentChecks.forEach(function(phase) {
+    var c = phColors[phase.cls] || [60, 60, 60];
+    nl(12);
+    fr(M, y, W - M * 2, 8, c[0], c[1], c[2]);
+    var phaseTitle = phase.phase.split("/")[0].trim(); tx(phaseTitle, M + 2, y + 5.5, 8, 255, 255, 255);
+    y += 10;
+
+    phase.items.forEach(function(item) {
+      var a = answers[item.id] || "--";
+      var isFail = (a === "FAIL");
+      var isOK = (a === "OK" || a === "N/A");
+      var tmpEl = document.getElementById("tmp-" + item.id);
+      var tmpVal = tmpEl ? (tmpEl.value || "") : "";
+      var hasPhoto = !!photoData[item.id];
+
+      var extraLine = "";
+      if (item.extra) {
+        item.extra.forEach(function(f) {
+          var v = extraVal(item.id, f.key);
+          if (v) extraLine += (extraLine ? "  |  " : "") + f.label.split("/")[0].trim() + ": " + v;
+        });
+      }
+
+      nl(hasPhoto ? 70 : 12);
+
+      var rowH = extraLine ? 15 : 11;
+      fr(M, y, W - M * 2, rowH, isFail ? 255 : isOK ? 240 : 248, isFail ? 233 : isOK ? 250 : 248, isFail ? 233 : isOK ? 240 : 248);
+      doc.setDrawColor(200, 200, 200); doc.rect(M, y, W - M * 2, rowH, "S");
+
+      tx("Step " + item.id, M + 2, y + 4, 7, 100, 100, 100);
+      tx(item.auto ? "(auto)" : "", M + 24, y + 4, 6, 130, 130, 130);
+
+      var enText = item.en.length > 70 ? item.en.substring(0, 68) + "..." : item.en;
+      tx(enText, M + 40, y + 4, 7.5, 20, 20, 20);
+      if (tmpVal) tx(tmpVal + "C", M + 40, y + 13, 6, 60, 100, 160);
+
+      var ac = isFail ? [180, 20, 20] : isOK ? [30, 100, 30] : [100, 100, 100];
+      tx(a, W - M - 2, y + 4, 9, ac[0], ac[1], ac[2], "right");
+      if (timestamps[item.id]) tx(timestamps[item.id], W - M - 14, y + 4, 6, 140, 140, 140, "right");
+
+      var refParts = item.ref.split("|");
+      var refShort = refParts[0].trim();
+      if (refParts.length > 1) refShort += " | " + refParts[1].trim();
+      if (refShort.length > 90) refShort = refShort.substring(0, 88) + "...";
+      tx(refShort, M + 2, y + 9, 5, 120, 140, 170);
+
+      if (extraLine) {
+        var elShort = extraLine.length > 100 ? extraLine.substring(0, 98) + "..." : extraLine;
+        tx(elShort, M + 2, y + 13, 6, 60, 100, 160);
+      }
+
+      y += rowH + 1;
+
+      if (hasPhoto) {
+        nl(58);
+        try {
+          var ext2 = photoData[item.id].indexOf("image/png") > -1 ? "PNG" : "JPEG";
+          var pi2 = new Image(); pi2.src = photoData[item.id];
+          var iw2 = pi2.naturalWidth || 1920, ih2 = pi2.naturalHeight || 1080;
+          var r2 = iw2 / ih2;
+          var dw2 = W - M * 2 - 10, dh2 = dw2 / r2;
+          if (dh2 > 52) { dh2 = 52; dw2 = dh2 * r2; }
+          var xo2 = M + 5 + (W - M * 2 - 10 - dw2) / 2;
+          doc.addImage(photoData[item.id], ext2, xo2, y, dw2, dh2);
+          y += dh2 + 3;
+        } catch(e) { tx("(photo)", M + 5, y + 4, 7, 100, 100, 100); y += 8; }
+      }
+    });
+    y += 4;
+  });
+
+  // ── HACCP Reference Table (final page) ──
+  doc.addPage(); y = 14;
+  fr(0, 0, W, 30, 31, 56, 100);
+  tx("HACCP REGULATORY REFERENCE TABLE", M, 11, 13, 255, 255, 255);
+  tx("Prosun Farm -- Truck Cold Box Checklist -- " + SESSION_LABEL[currentSession], M, 19, 9, 180, 205, 235);
+  tx("Codex Alimentarius CAC/RCP 1-1969 Rev.4 + CAC/GS 42-1999 + Thai FDA GDA", M, 26, 7, 140, 170, 210);
+  y = 36;
+
+  // Standards
+  fr(M, y, W - M * 2, 8, 47, 84, 150);
+  tx("APPLICABLE REGULATORY STANDARDS", M + 2, y + 5.5, 9, 255, 255, 255); y += 10;
+  var standards = [
+    ["Codex Alimentarius", "CAC/RCP 1-1969 Rev.4 (2003)", "General Principles of Food Hygiene incl. HACCP System"],
+    ["Codex Alimentarius", "CAC/GS 42-1999", "General Standard for Quick Frozen Foods -- transport temperature"],
+    ["EU Regulation", "(EC) 853/2004 Annex III", "Deep-frozen foodstuffs transport -- reference benchmark"],
+    ["Thai FDA", "GDA Notification B.E. 2561 (2018)", "Good Manufacturing Practice for Food Production"],
+    ["ISO 22000:2018", "Clause 8.5 / 8.9", "Food Safety Management -- CCP monitoring & verification"],
+  ];
+  standards.forEach(function(r, i) {
+    fr(M, y, 50, 6, i%2===0?238:250,i%2===0?244:255,i%2===0?248:255);
+    fr(M+50,y,55,6,i%2===0?244:252,i%2===0?248:255,i%2===0?250:255);
+    fr(M+105,y,W-M*2-105,6,i%2===0?248:252,i%2===0?250:255,i%2===0?252:255);
+    tx(r[0],M+2,y+4.5,8,40,40,40);
+    tx(r[1],M+52,y+4.5,7,60,60,60);
+    tx(r[2],M+107,y+4.5,7,80,80,80);
+    y += 6;
+  });
+  y += 8;
+
+  // CCP / CP / PRP Matrix -- built dynamically from currentChecks
+  fr(M, y, W - M * 2, 8, 47, 84, 150);
+  tx("CCP / CP / PRP REFERENCE MATRIX -- " + SESSION_LABEL[currentSession].toUpperCase(), M + 2, y + 5.5, 9, 255, 255, 255); y += 10;
+
+  var cols = [M, M+18, M+40, M+82, M+112, M+152];
+  var headers = ["Ref","Step","Control Point","Critical Limit","Regulatory Reference","Hazard Controlled"];
+  fr(M,y,W-M*2,7,31,56,100);
+  headers.forEach(function(h,i){ tx(h,cols[i]+1,y+5,6.5,255,255,255); });
+  y += 8;
+
+  var matrix = [];
+  getAllItems().forEach(function(item) {
+    var refParts = item.ref.split("|");
+    var refShort = refParts.slice(0, 2).join(" | ");
+    matrix.push([item.ccpRef, item.id, item.en.length > 38 ? item.en.substring(0,36) + "..." : item.en, item.critLimit, refShort, item.hazard]);
+  });
+
+  matrix.forEach(function(r, i) {
+    nl(7);
+    var rbg = r[0]==="CCP-8"?[255,233,233]:r[0]==="CP"?[255,248,220]:[240,248,240];
+    fr(M,y,W-M*2,7,rbg[0],rbg[1],rbg[2]);
+    doc.setDrawColor(200,200,200); doc.rect(M,y,W-M*2,7,"S");
+    var tc = r[0]==="CCP-8"?[180,20,20]:r[0]==="CP"?[120,80,0]:[30,80,30];
+    tx(r[0],cols[0]+1,y+5,7,tc[0],tc[1],tc[2]);
+    for(var ci=1;ci<r.length;ci++){tx(r[ci],cols[ci]+1,y+5,6,60,60,60);}
+    y += 7;
+  });
+  y += 8;
+
+  // 7 Principles
+  nl(70);
+  fr(M, y, W - M * 2, 8, 30, 86, 49);
+  tx("CODEX ALIMENTARIUS -- 7 HACCP PRINCIPLES",M+2,y+5.5,9,255,255,255);
+  y += 10;
+  var principles=[
+    ["Principle 1","Conduct a Hazard Analysis","Hazard Register (see HACCP Plan document)"],
+    ["Principle 2","Identify Critical Control Points (CCPs)","CCP-8 Truck Transport Cold Chain -- see matrix above"],
+    ["Principle 3","Establish Critical Limits","<= -18C frozen product transport"],
+    ["Principle 4","Establish Monitoring Procedures","This checklist -- auto-validated + timestamped"],
+    ["Principle 5","Establish Corrective Actions","FAIL comment + corrective action fields"],
+    ["Principle 6","Establish Verification Procedures","Auto-validation + mandatory photo evidence"],
+    ["Principle 7","Establish Documentation and Record Keeping","This PDF -- signed, timestamped, photo-evidenced"],
+  ];
+  principles.forEach(function(p,i){
+    nl(7);
+    fr(M,y,W-M*2,7,i%2===0?243:252,i%2===0?248:255,i%2===0?243:255);
+    tx(p[0],M+2,y+5,7.5,31,56,100);
+    tx(p[1],M+28,y+5,7.5,20,20,20);
+    tx(p[2],M+105,y+5,6.5,60,80,120);
+    y+=7;
+  });
+
+  // Footer
+  nl(12); y += 5;
+  doc.setDrawColor(180,180,180); doc.line(M,y,W-M,y); y+=5;
+  tx("Document: "+fname,M,y,6.5,140,140,140);
+  tx("Prosun Farm | clement@klongphaifarm.com | Codex CAC/RCP 1-1969 Rev.4 + CAC/GS 42-1999 + Thai FDA GDA",W-M,y,6,140,140,140,"right");
+
+  doc.save(fname);
+}
+
+// ════════════════════════════════════════════════════════
+// EMAIL MODAL
+// ════════════════════════════════════════════════════════
+function showEmailModal() {
+  var area = document.getElementById("email-area");
+  area.innerHTML = "<div class='modal-bg'><div class='modal-box'>"
+    + "<h3>Email PDF to CEO / ส่ง PDF ถึง CEO</h3>"
+    + "<p>Confirm email address / ยืนยันอีเมล</p>"
+    + "<input type='email' id='ceo-email' value='clement@klongphaifarm.com'>"
+    + "<div class='modal-btns'>"
+    + "<button class='m-send' id='btn-do-send'>Send / ส่ง</button>"
+    + "<button class='m-cancel' id='btn-do-cancel'>Cancel / ยกเลิก</button>"
+    + "</div></div></div>";
+  document.getElementById("btn-do-send").addEventListener("click", function() {
+    var email = document.getElementById("ceo-email").value || "clement@klongphaifarm.com";
+    area.innerHTML = "";
+    document.getElementById("sent-to").textContent = "Sent to: " + email + " -- " + (window._fname || "");
+    document.getElementById("email-sent").style.display = "block";
+    generatePDF();
+  });
+  document.getElementById("btn-do-cancel").addEventListener("click", function() {
+    area.innerHTML = "";
+  });
+}
+
+// ════════════════════════════════════════════════════════
+// BOOT
+// ════════════════════════════════════════════════════════
+document.addEventListener("DOMContentLoaded", function() {
+  showScreen("sc-login");
+
+  document.getElementById("btn-pin").addEventListener("click", function() { doLogin(); });
+  document.getElementById("pin-field").addEventListener("keydown", function(e) {
+    if (e.key === "Enter") { doLogin(); }
+  });
+  document.getElementById("btn-submit").addEventListener("click", function() { doSubmit(); });
+  document.getElementById("btn-dl").addEventListener("click", function() { generatePDF(); });
+  document.getElementById("btn-email").addEventListener("click", function() { showEmailModal(); });
+  document.getElementById("btn-reset").addEventListener("click", function() {
+    answers = {}; timestamps = {}; photoData = {}; photoTaken = {};
+    document.getElementById("pin-field").value = "";
+    document.getElementById("email-sent").style.display = "none";
+    document.getElementById("email-area").innerHTML = "";
+    showScreen("sc-login");
+  });
+});
+
+</script>
+</body>
+</html>
