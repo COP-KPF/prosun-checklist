@@ -1146,7 +1146,21 @@ function generatePDF() {
   tx("Document: "+fname,M,y,6.5,140,140,140);
   tx("Prosun Farm | clement@klongphaifarm.com | Codex CAC/RCP 1-1969 Rev.4 + CAC/GS 42-1999 + Thai FDA GDA",W-M,y,6,140,140,140,"right");
 
-  doc.save(fname);
+  try {
+    doc.save(fname);
+    showToast("PDF downloading -- check your Downloads/Files app / กำลังดาวน์โหลด PDF");
+  } catch (err) {
+    // Fallback for browsers (notably iOS Safari) that block the direct
+    // download -- open the PDF in a new tab instead so it can be saved
+    // or shared manually.
+    try {
+      var blobUrl = doc.output("bloburl");
+      window.open(blobUrl, "_blank");
+      showToast("PDF opened in a new tab -- use Share/Save from there / เปิด PDF ในแท็บใหม่");
+    } catch (err2) {
+      alert("Could not generate the PDF. Please try again, or use the Email PDF button instead.\n\nError: " + (err2 && err2.message ? err2.message : err2));
+    }
+  }
 }
 
 // ════════════════════════════════════════════════════════
