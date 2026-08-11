@@ -138,14 +138,7 @@ body{font-family:Arial,sans-serif;background:#f0f2f5;color:#1a1a1a;font-size:14p
   <div class="wrap" style="padding-top:24px">
     <div class="card">
       <h2>Sign in</h2>
-      <p>Select your role and enter your PIN to start the PSFood quality check.</p>
-      <span class="field-lbl">Role</span>
-      <div class="field-row">
-        <select id="role-sel">
-          <option value="chef">Chef -- Julien</option>
-          <option value="ceo">CEO</option>
-        </select>
-      </div>
+      <p>Enter your PIN to start the PSFood quality check.</p>
       <span class="field-lbl">PIN (4 digits)</span>
       <div class="field-row">
         <input type="password" id="pin-field" maxlength="4" placeholder="****"
@@ -251,30 +244,30 @@ var CHECKS = [
         photo: true, photoTrigger: "dropdown",
         failMsg: "Reduce batch size and re-arrange bags so none are touching before starting the cook.",
         ref: "Client CAPA -- PSFood | Prosun Food QA Corrective Action Plan | Even heat distribution / full cook-through"
-      },
-      {
-        id: "2.3",
-        en: "Cook-to-order confirmed -- batch size matches the confirmed client order quantity (in effect since this morning)",
-        lim: "QC-4 -- Batch size = confirmed order qty",
-        lt: "bw", timeCheck: false,
-        photo: false, photoTrigger: "none",
-        failMsg: "Do not cook ahead of a confirmed order. Adjust batch size to match the order before starting.",
-        ref: "Client CAPA -- PSFood | Prosun Food QA Corrective Action Plan | No excess holding, freshness on delivery"
       }
     ]
   },
   {
-    phase: "PHASE 3 -- Cooking Time Control",
+    phase: "PHASE 3 -- Cooking Control",
     cls: "p3",
     items: [
       {
         id: "3.1",
-        en: "Cooking time increased by 15% vs standard recipe time -- auto validated",
-        lim: "QC-5 -- Auto validated -- Actual time must be >= Standard x 1.15",
-        lt: "bc", timeCheck: true,
+        en: "Cooking time increased by 15% vs standard recipe time (standard = 1 hour) -- auto validated",
+        lim: "QC-5 -- Auto validated -- Actual time must be >= 69 min (60 min x 1.15)",
+        lt: "bc", timeCheck: true, fixedStd: 60,
         photo: true, photoTrigger: "temp",
-        failMsg: "Do not release this batch. Extend cooking time to reach at least +15% over the standard recipe time.",
+        failMsg: "Do not release this batch. Extend cooking time to reach at least +15% over the 1-hour standard.",
         ref: "Client CAPA -- PSFood | Prosun Food QA Corrective Action Plan | Full cook-through assurance"
+      },
+      {
+        id: "3.2",
+        en: "Cooking temperature verification -- core/bath temperature reaches minimum 65C, checked via probe reading or sous-vide cooker display",
+        lim: "QC-6 -- Auto validated -- Temperature must be >= 65C",
+        lt: "bc", tempCheck: true, tempMin: 65,
+        photo: true, photoTrigger: "temp",
+        failMsg: "Do not release this batch. Continue cooking until minimum 65C is reached and confirmed.",
+        ref: "Client CAPA -- PSFood | Prosun Food QA Corrective Action Plan | Full cook-through / pathogen kill assurance"
       }
     ]
   }
@@ -470,24 +463,25 @@ function getAQL(lotSize) {
   return {sample: 315, ac: 14, re: 15}; // fallback for very large lots
 }
 
+// Fixed average piece weight used to estimate lot piece count from kg
+var AVG_PIECE_WEIGHT_G = 210;
+
 // ============================================================
 // SAMPLING CALCULATOR -- lot weight -> pieces -> AQL sample size
 // ============================================================
 function evalSampling(id) {
   var lotEl = document.getElementById("lotkg-" + id);
-  var avgEl = document.getElementById("avgpc-" + id);
   var defEl = document.getElementById("defect-" + id);
   var infoEl = document.getElementById("samp-info-" + id);
-  if (!lotEl || !avgEl || !infoEl) return;
+  if (!lotEl || !infoEl) return;
 
   var lotKg = parseFloat(lotEl.value);
-  var avgG = parseFloat(avgEl.value);
-  if (isNaN(lotKg) || isNaN(avgG) || lotKg <= 0 || avgG <= 0) {
+  if (isNaN(lotKg) || lotKg <= 0) {
     infoEl.style.display = "none";
     return;
   }
 
-  var pieces = Math.round((lotKg * 1000) / avgG);
+  var pieces = Math.round((lotKg * 1000) / AVG_PIECE_WEIGHT_G);
   var aql = getAQL(pieces);
   infoEl.style.display = "block";
   infoEl.innerHTML = "Estimated lot: ~" + pieces + " pcs &rarr; <strong>Pull " + aql.sample + " pcs</strong> "
@@ -524,12 +518,11 @@ function evalSampling(id) {
 function evalAutoTime(id) {
   var item = getItem(id);
   if (!item) return;
-  var stdEl = document.getElementById("std-" + id);
   var actEl = document.getElementById("act-" + id);
-  if (!stdEl || !actEl) return;
-  var std = parseFloat(stdEl.value);
+  if (!actEl) return;
+  var std = item.fixedStd ? item.fixedStd : parseFloat((document.getElementById("std-" + id) || {}).value);
   var act = parseFloat(actEl.value);
-  if (isNaN(std) || isNaN(act) || stdEl.value === "" || actEl.value === "") return;
+  if (isNaN(std) || isNaN(act) || actEl.value === "") return;
 
   var required = std * 1.15;
   var passed = act >= required;
@@ -545,6 +538,36 @@ function evalAutoTime(id) {
     if (fb) fb.style.display = "block";
     setAnswer(id, "FAIL");
     showToast("FAIL Step " + id + " -- cooking time below +15% requirement.");
+  }
+
+  if (item.photo) triggerCamera(id);
+}
+
+// ============================================================
+// AUTO VALIDATE COOKING TEMPERATURE (actual >= tempMin)
+// ============================================================
+function evalAutoTemp(id) {
+  var item = getItem(id);
+  if (!item) return;
+  var tEl = document.getElementById("ctemp-" + id);
+  if (!tEl) return;
+  var t = parseFloat(tEl.value);
+  if (isNaN(t) || tEl.value === "") return;
+
+  var min = item.tempMin;
+  var passed = t >= min;
+  var ar = document.getElementById("ar-" + id);
+  var fb = document.getElementById("fb-" + id);
+
+  if (passed) {
+    if (ar) { ar.className = "auto-result auto-ok"; ar.textContent = "OK -- " + t + " C recorded (minimum " + min + " C)"; ar.style.display = "block"; }
+    if (fb) fb.style.display = "none";
+    setAnswer(id, "OK");
+  } else {
+    if (ar) { ar.className = "auto-result auto-fail"; ar.textContent = "FAIL -- " + t + " C recorded -- below minimum " + min + " C"; ar.style.display = "block"; }
+    if (fb) fb.style.display = "block";
+    setAnswer(id, "FAIL");
+    showToast("FAIL Step " + id + " -- cooking temperature below " + min + "C minimum.");
   }
 
   if (item.photo) triggerCamera(id);
@@ -574,7 +597,7 @@ function buildChecklist() {
       d.className = "chk-item";
       d.id = "chk-" + item.id;
 
-      var html = "<div class='step-id'>Step " + item.id + ((item.timeCheck || item.sampling) ? " -- AUTO VALIDATED" : "") + "</div>"
+      var html = "<div class='step-id'>Step " + item.id + ((item.timeCheck || item.sampling || item.tempCheck) ? " -- AUTO VALIDATED" : "") + "</div>"
         + "<div class='step-en'>" + item.en + "</div>"
         + "<div class='step-ref'><i class='ti ti-book-2'></i> " + item.ref + "</div>"
         + "<span class='badge " + item.lt + "'>" + item.lim + "</span>";
@@ -583,15 +606,22 @@ function buildChecklist() {
       if (item.sampling) {
         html += "<div class='temp-row'>"
           + "<div class='time-field'><span>Lot weight</span><div class='temp-row' style='margin-bottom:0'><input type='number' class='temp-inp samp-inp' id='lotkg-" + item.id + "' step='1' placeholder='200' inputmode='decimal'><span class='temp-unit'>kg</span></div></div>"
-          + "<div class='time-field'><span>Avg piece weight</span><div class='temp-row' style='margin-bottom:0'><input type='number' class='temp-inp samp-inp' id='avgpc-" + item.id + "' step='5' value='210' inputmode='decimal'><span class='temp-unit'>g</span></div></div>"
           + "</div>"
           + "<div class='step-ref' id='samp-info-" + item.id + "' style='display:none'></div>"
           + "<div class='time-field' style='margin-bottom:10px'><span>Defective pieces found in sample</span><div class='temp-row' style='margin-bottom:0'><input type='number' class='temp-inp samp-inp' id='defect-" + item.id + "' step='1' placeholder='0' inputmode='numeric'><span class='temp-unit'>pcs</span></div></div>"
           + "<div class='auto-result' id='ar-" + item.id + "'></div>";
       } else if (item.timeCheck) {
+        var stdField = item.fixedStd
+          ? "<div class='time-field'><span>Standard time</span><div class='temp-row' style='margin-bottom:0'><input type='number' class='temp-inp' value='" + item.fixedStd + "' disabled style='background:#f0f2f5;color:#888'><span class='temp-unit'>min (fixed)</span></div></div>"
+          : "<div class='time-field'><span>Standard time</span><div class='temp-row' style='margin-bottom:0'><input type='number' class='temp-inp time-inp' id='std-" + item.id + "' step='0.5' placeholder='0' inputmode='decimal'><span class='temp-unit'>min</span></div></div>";
         html += "<div class='temp-row'>"
-          + "<div class='time-field'><span>Standard time</span><div class='temp-row' style='margin-bottom:0'><input type='number' class='temp-inp time-inp' id='std-" + item.id + "' step='0.5' placeholder='0' inputmode='decimal'><span class='temp-unit'>min</span></div></div>"
+          + stdField
           + "<div class='time-field'><span>Actual time applied</span><div class='temp-row' style='margin-bottom:0'><input type='number' class='temp-inp time-inp' id='act-" + item.id + "' step='0.5' placeholder='0' inputmode='decimal'><span class='temp-unit'>min</span></div></div>"
+          + "</div>"
+          + "<div class='auto-result' id='ar-" + item.id + "'></div>";
+      } else if (item.tempCheck) {
+        html += "<div class='temp-row'>"
+          + "<div class='time-field'><span>Recorded temperature</span><div class='temp-row' style='margin-bottom:0'><input type='number' class='temp-inp ctemp-inp' id='ctemp-" + item.id + "' step='0.5' placeholder='0' inputmode='decimal'><span class='temp-unit'>&deg;C</span></div></div>"
           + "</div>"
           + "<div class='auto-result' id='ar-" + item.id + "'></div>";
       } else {
@@ -648,8 +678,12 @@ document.addEventListener("input", function(e) {
     evalAutoTime(id);
   }
   if (el.classList && el.classList.contains("samp-inp") && el.id) {
-    var sid = el.id.replace("lotkg-", "").replace("avgpc-", "").replace("defect-", "");
+    var sid = el.id.replace("lotkg-", "").replace("defect-", "");
     evalSampling(sid);
+  }
+  if (el.classList && el.classList.contains("ctemp-inp") && el.id) {
+    var tid = el.id.replace("ctemp-", "");
+    evalAutoTemp(tid);
   }
 });
 
@@ -685,12 +719,19 @@ document.addEventListener("change", function(e) {
 });
 
 // ============================================================
-// LOGIN
+// LOGIN -- PIN alone determines identity (no separate role picker,
+// to avoid PIN/role mismatch)
 // ============================================================
+var PIN_MAP = {
+  "7451": "Chef Julien",
+  "7452": "Chef Pop",
+  "8863": "CEO"
+};
+
 function doLogin() {
-  var role = document.getElementById("role-sel").value;
   var p = document.getElementById("pin-field").value.trim();
-  if (p !== "7451" && p !== "8863") {
+  var name = PIN_MAP[p];
+  if (!name) {
     document.getElementById("pin-err").style.display = "block";
     document.getElementById("pin-field").value = "";
     document.getElementById("pin-field").style.borderColor = "#C00000";
@@ -700,7 +741,7 @@ function doLogin() {
     return;
   }
   document.getElementById("pin-err").style.display = "none";
-  currentUser = (role === "ceo") ? "CEO" : "Chef Julien";
+  currentUser = name;
   loginMethod = "PIN";
   answers = {}; timestamps = {}; photoData = {}; photoTaken = {};
   var now = new Date();
@@ -823,23 +864,30 @@ function generatePDF() {
       var ca = caEl ? (caEl.value || "") : "";
       var stdEl = document.getElementById("std-" + id);
       var actEl = document.getElementById("act-" + id);
+      var stdVal = item.fixedStd ? item.fixedStd : (stdEl ? stdEl.value : "");
       var lotEl = document.getElementById("lotkg-" + id);
-      var avgEl = document.getElementById("avgpc-" + id);
       var defEl = document.getElementById("defect-" + id);
+      var ctempEl = document.getElementById("ctemp-" + id);
 
       nl(20);
       fr(M, y, W - M * 2, 8, 255, 233, 233);
       doc.setDrawColor(210, 70, 70); doc.rect(M, y, W - M * 2, 8, "S");
       tx("Step " + id + ": " + item.en, M + 2, y + 5.5, 8, 150, 20, 20);
       y += 9;
-      if (stdEl && actEl && stdEl.value && actEl.value) {
+      if (stdVal && actEl && actEl.value) {
         nl(6);
         fr(M, y, W - M * 2, 5, 255, 245, 245);
-        tx("Standard: " + stdEl.value + " min -- Actual: " + actEl.value + " min", M + 2, y + 3.8, 7, 120, 30, 30);
+        tx("Standard: " + stdVal + " min -- Actual: " + actEl.value + " min", M + 2, y + 3.8, 7, 120, 30, 30);
         y += 6;
       }
-      if (lotEl && avgEl && defEl && lotEl.value && avgEl.value && defEl.value) {
-        var lotPieces = Math.round((parseFloat(lotEl.value) * 1000) / parseFloat(avgEl.value));
+      if (ctempEl && ctempEl.value) {
+        nl(6);
+        fr(M, y, W - M * 2, 5, 255, 245, 245);
+        tx("Recorded temperature: " + ctempEl.value + " C (minimum " + (item.tempMin || 65) + " C)", M + 2, y + 3.8, 7, 120, 30, 30);
+        y += 6;
+      }
+      if (lotEl && defEl && lotEl.value && defEl.value) {
+        var lotPieces = Math.round((parseFloat(lotEl.value) * 1000) / AVG_PIECE_WEIGHT_G);
         var lotAql = getAQL(lotPieces);
         nl(6);
         fr(M, y, W - M * 2, 5, 255, 245, 245);
@@ -895,14 +943,18 @@ function generatePDF() {
       var isOK = (a === "OK");
       var stdEl = document.getElementById("std-" + item.id);
       var actEl = document.getElementById("act-" + item.id);
-      var timeVal = (stdEl && actEl && stdEl.value && actEl.value) ? (actEl.value + " min (std " + stdEl.value + ")") : "";
+      var stdValR = item.fixedStd ? item.fixedStd : (stdEl ? stdEl.value : "");
+      var timeVal = (stdValR && actEl && actEl.value) ? (actEl.value + " min (std " + stdValR + ")") : "";
       var lotElR = document.getElementById("lotkg-" + item.id);
-      var avgElR = document.getElementById("avgpc-" + item.id);
       var defElR = document.getElementById("defect-" + item.id);
-      if (lotElR && avgElR && defElR && lotElR.value && avgElR.value && defElR.value) {
-        var pcsR = Math.round((parseFloat(lotElR.value) * 1000) / parseFloat(avgElR.value));
+      var ctempElR = document.getElementById("ctemp-" + item.id);
+      if (lotElR && defElR && lotElR.value && defElR.value) {
+        var pcsR = Math.round((parseFloat(lotElR.value) * 1000) / AVG_PIECE_WEIGHT_G);
         var aqlR = getAQL(pcsR);
         timeVal = lotElR.value + "kg / ~" + pcsR + " pcs -- sample " + aqlR.sample + " -- defective " + defElR.value;
+      }
+      if (ctempElR && ctempElR.value) {
+        timeVal = ctempElR.value + " C (min " + (item.tempMin || 65) + " C)";
       }
       var hasPhoto = !!photoData[item.id];
 
@@ -913,7 +965,7 @@ function generatePDF() {
       doc.setDrawColor(200, 200, 200); doc.rect(M, y, W - M * 2, rowH, "S");
 
       tx("Step " + item.id, M + 2, y + 4, 7, 100, 100, 100);
-      tx(item.timeCheck ? "(auto)" : "", M + 24, y + 4, 6, 130, 130, 130);
+      tx((item.timeCheck || item.tempCheck) ? "(auto)" : "", M + 24, y + 4, 6, 130, 130, 130);
 
       var enText = item.en.length > 70 ? item.en.substring(0, 68) + "..." : item.en;
       tx(enText, M + 40, y + 4, 7.5, 20, 20, 20);
@@ -970,8 +1022,8 @@ function generatePDF() {
     ["QC-1","1.1","Butcher Breast Inspection","100% visual check, blood vein pcs removed","Physical/aesthetic defect control at source"],
     ["QC-2","2.1","Kitchen Pre-Marinate Check","Second visual check before marinate","Second-layer defect control"],
     ["QC-3","2.2","Batch Size / Bag Separation","Smaller batches, bags not touching","Even heat distribution, full cook-through"],
-    ["QC-4","2.3","Cook-to-Order","Batch size = confirmed order qty","No excess holding, freshness on delivery"],
-    ["QC-5","3.1","Cooking Time +15%","Actual time >= Standard x 1.15","Full cook-through assurance"]
+    ["QC-5","3.1","Cooking Time +15%","Actual time >= 69 min (60 min standard x 1.15)","Full cook-through assurance"],
+    ["QC-6","3.2","Cooking Temperature","Actual temperature >= 65C","Full cook-through / pathogen kill assurance"]
   ];
   matrix.forEach(function(r, i) {
     nl(7);
@@ -992,11 +1044,11 @@ function generatePDF() {
   tx("BACKGROUND",M+2,y+5.5,9,255,255,255); y += 10;
   var bgLines = doc.splitTextToSize(
     "Following feedback from client PSFood, Prosun Food implemented this corrective action plan: " +
-    "(1) butchers now perform a 100% visual check on breast pieces before packing and remove any piece with visible blood vein; " +
+    "(1) butchers now perform a visual check on breast pieces before packing, sampled per ISO 2859-1 AQL 2.5%, and remove any piece with visible blood vein; " +
     "(2) the kitchen performs a second visual check before marinating, catching anything missed at the butcher stage; " +
     "(3) smaller batches are cooked at a time to ensure bags do not touch each other in the cooking bath; " +
-    "(4) production is now strictly cook-to-order rather than cooked ahead of confirmed orders; and " +
-    "(5) cooking time has been increased by 15% over the standard recipe time. This checklist provides a signed, " +
+    "(4) cooking time has been increased by 15% over the 1-hour standard recipe time; and " +
+    "(5) cooking temperature is verified to reach a minimum of 65C, checked via probe reading or the sous-vide cooker display. This checklist provides a signed, " +
     "timestamped, photo-evidenced record of daily compliance with this plan.",
     W - M * 2 - 4
   );
