@@ -56,6 +56,9 @@ body{font-family:Arial,sans-serif;background:#f0f2f5;color:#1a1a1a;font-size:14p
 .temp-inp{width:96px;padding:10px;border-radius:8px;border:1.5px solid #d0d5dd;font-size:18px;text-align:center;font-weight:600;-webkit-appearance:none}
 .temp-inp:focus{outline:none;border-color:#1F3864}
 .temp-unit{font-size:13px;color:#666;font-weight:500}
+.sign-btn{width:44px;height:44px;border-radius:8px;border:1.5px solid #1F3864;background:#EBF3FB;color:#1F3864;font-size:20px;font-weight:700;-webkit-appearance:none;cursor:pointer;flex-shrink:0}
+.sign-btn.pos{background:#FFF0D0;border-color:#7A4F00;color:#7A4F00}
+.sign-hint{font-size:10px;color:#888;margin-top:-5px;margin-bottom:8px}
 
 /* AUTO RESULT */
 .auto-result{padding:11px 14px;border-radius:8px;font-size:13px;font-weight:700;text-align:center;margin-bottom:10px;display:none;letter-spacing:.2px}
@@ -652,9 +655,11 @@ function buildChecklist() {
 
       if (item.temp) {
         html += "<div class='temp-row'>"
-          + "<input type='number' class='temp-inp' id='tmp-" + item.id + "' step='0.1' placeholder='0.0' inputmode='decimal'>"
+          + "<button type='button' class='sign-btn' id='sign-" + item.id + "' data-id='" + item.id + "' data-sign='-1'>&minus;</button>"
+          + "<input type='number' class='temp-inp' id='tmp-" + item.id + "' step='0.1' placeholder='0.0' inputmode='decimal' min='0'>"
           + "<span class='temp-unit'>°C</span>"
-          + "</div>";
+          + "</div>"
+          + "<div class='sign-hint'>Tap +/&minus; to switch above/below zero, then enter the number / กดปุ่ม +/&minus; เพื่อสลับค่าบวก-ลบ แล้วกรอกตัวเลข</div>";
       }
 
       if (item.auto) {
@@ -718,14 +723,41 @@ function buildChecklist() {
 // ════════════════════════════════════════════════════════
 // EVENT DELEGATION -- temperature input
 // ════════════════════════════════════════════════════════
+function getTempSign(id) {
+  var btn = document.getElementById("sign-" + id);
+  return (btn && btn.getAttribute("data-sign") === "1") ? 1 : -1;
+}
+
+function getSignedTemp(id) {
+  var inp = document.getElementById("tmp-" + id);
+  if (!inp || inp.value === "") return null;
+  var mag = parseFloat(inp.value);
+  if (isNaN(mag)) return null;
+  return Math.abs(mag) * getTempSign(id);
+}
+
 document.addEventListener("input", function(e) {
   var el = e.target;
   if (el.classList && el.classList.contains("temp-inp") && el.id) {
     var id = el.id.replace("tmp-", "");
-    var val = parseFloat(el.value);
-    if (!isNaN(val) && el.value !== "") {
+    var val = getSignedTemp(id);
+    if (val !== null) {
       evalAutoTemp(id, val);
     }
+  }
+});
+
+document.addEventListener("click", function(e) {
+  var el = e.target;
+  if (el.classList && el.classList.contains("sign-btn")) {
+    var id = el.getAttribute("data-id");
+    var cur = getTempSign(id);
+    var next = cur === -1 ? 1 : -1;
+    el.setAttribute("data-sign", String(next));
+    el.innerHTML = next === -1 ? "&minus;" : "+";
+    el.classList.toggle("pos", next === 1);
+    var val = getSignedTemp(id);
+    if (val !== null) evalAutoTemp(id, val);
   }
 });
 
@@ -923,8 +955,8 @@ function generatePDF() {
     fails.forEach(function(id) {
       var item = getItem(id);
       if (!item) return;
-      var tmpEl = document.getElementById("tmp-" + id);
-      var tmpVal = tmpEl ? (tmpEl.value || "") : "";
+      var sv = getSignedTemp(id);
+      var tmpVal = sv !== null ? String(sv) : "";
       var comEl = document.getElementById("com-" + id);
       var caEl = document.getElementById("ca-" + id);
       var com = comEl ? (comEl.value || "") : "";
@@ -999,8 +1031,8 @@ function generatePDF() {
       var a = answers[item.id] || "--";
       var isFail = (a === "FAIL");
       var isOK = (a === "OK" || a === "N/A");
-      var tmpEl = document.getElementById("tmp-" + item.id);
-      var tmpVal = tmpEl ? (tmpEl.value || "") : "";
+      var sv2 = getSignedTemp(item.id);
+      var tmpVal = sv2 !== null ? String(sv2) : "";
       var hasPhoto = !!photoData[item.id];
 
       var extraLine = "";
